@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3725107262365829099}
   - component: {fileID: 3725107262365829101}
   - component: {fileID: 3725107262365829102}
-  - component: {fileID: 5957289343684736698}
+  - component: {fileID: 5005931095368590545}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
---- !u!114 &5957289343684736698
+--- !u!114 &5005931095368590545
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3725107262365829092}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b49b72059e98e604c9e4186009da8b7a, type: 3}
+  m_Script: {fileID: 11500000, guid: 043484743d97d514d813ab5f01548fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 4297360801449255465}
