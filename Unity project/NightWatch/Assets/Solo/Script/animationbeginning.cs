@@ -29,8 +29,6 @@ public class animationbeginning : MonoBehaviour
         musicIntro.SetActive(true);
         fadeBird.enabled = true;
         fadeWind.enabled = true;
-        wind.loop = false;
-        bird.loop = false;
     }
 
     // Update is called once per frame
@@ -39,6 +37,8 @@ public class animationbeginning : MonoBehaviour
         if (!animation.isPlaying)
         {
             textNigtWatch.SetActive(true);
+            wind.loop = false;
+            bird.loop = false;
             enabled = false;
         }
     }

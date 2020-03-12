@@ -90,8 +90,7 @@ GameObject:
   - component: {fileID: 5851713771831605454}
   - component: {fileID: 5851713771831605455}
   - component: {fileID: 5851713771831605448}
-  - component: {fileID: -8131995950133284797}
-  - component: {fileID: 153090176032240030}
+  - component: {fileID: 5363952243742785391}
   m_Layer: 5
   m_Name: Player button
   m_TagString: Untagged
@@ -197,18 +196,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5851713771831605454}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -8131995950133284797}
-        m_MethodName: OnClick_JoinRoom
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &5851713771831605448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,7 +217,7 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &-8131995950133284797
+--- !u!114 &5363952243742785391
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -238,19 +226,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5851713771831605453}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad5ebfdc6012014c81701c5f946ed12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &153090176032240030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5851713771831605453}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c70f898aad488544bb0f269355f3881e, type: 3}
+  m_Script: {fileID: 11500000, guid: e855ce4b7754d0c4c8eb3f7efed86566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textButton: {fileID: 5851713770328628092}
