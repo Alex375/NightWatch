@@ -48,14 +48,16 @@ using UnityEngine.UI;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 #if UNITY_EDITOR
     using UnityEditor;
 #endif
 
 [RequireComponent(typeof(CapsuleCollider)),RequireComponent(typeof(Rigidbody)),AddComponentMenu("First Person AIO")]
 
-public class FirstPersonAIO : MonoBehaviour {
-
+public class FirstPersonAIO : MonoBehaviourPun
+{
+    public bool singleplayer = true;
 
     #region Variables
 
@@ -245,379 +247,485 @@ public class BETA_SETTINGS{
 
     private void Awake()
     {
-        #region Look Settings - Awake
-        originalRotation = transform.localRotation.eulerAngles;
+        if (singleplayer)
+            PhotonNetwork.OfflineMode = true;
+        
+        if (photonView.IsMine)
+        {
+            #region Look Settings - Awake
 
-        #endregion 
+            originalRotation = transform.localRotation.eulerAngles;
 
-        #region Movement Settings - Awake
-        walkSpeedInternal = walkSpeed;
-        sprintSpeedInternal = sprintSpeed;
-        jumpPowerInternal = jumpPower;
-        capsule = GetComponent<CapsuleCollider>();
-        IsGrounded = true;
-        isCrouching = false;
-        fps_Rigidbody = GetComponent<Rigidbody>();
-        _crouchModifiers.colliderHeight = capsule.height;
-        #endregion
+            #endregion
 
-        #region Headbobbing Settings - Awake
+            #region Movement Settings - Awake
 
-        #endregion
+            walkSpeedInternal = walkSpeed;
+            sprintSpeedInternal = sprintSpeed;
+            jumpPowerInternal = jumpPower;
+            capsule = GetComponent<CapsuleCollider>();
+            IsGrounded = true;
+            isCrouching = false;
+            fps_Rigidbody = GetComponent<Rigidbody>();
+            _crouchModifiers.colliderHeight = capsule.height;
 
-        #region BETA_SETTINGS - Awake
-    
-#endregion
+            #endregion
 
+            #region Headbobbing Settings - Awake
+
+            #endregion
+
+            #region BETA_SETTINGS - Awake
+
+            #endregion
+        }
     }
 
     private void Start()
     {
-        #region Look Settings - Start
+        if (photonView.IsMine)
+        {
+            #region Look Settings - Start
 
-        if(autoCrosshair || drawStaminaMeter){
-            Canvas canvas = new GameObject("AutoCrosshair").AddComponent<Canvas>();
-            canvas.gameObject.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.pixelPerfect = true;
-            canvas.transform.SetParent(playerCamera.transform);
-            canvas.transform.position = Vector3.zero;
+            if (autoCrosshair || drawStaminaMeter)
+            {
+                Canvas canvas = new GameObject("AutoCrosshair").AddComponent<Canvas>();
+                canvas.gameObject.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                canvas.pixelPerfect = true;
+                canvas.transform.SetParent(playerCamera.transform);
+                canvas.transform.position = Vector3.zero;
 
-            if(autoCrosshair){
-                Image crossHair = new GameObject("Crosshair").AddComponent<Image>();
-                crossHair.sprite = Crosshair;
-                crossHair.rectTransform.sizeDelta = new Vector2(25,25);
-                crossHair.transform.SetParent(canvas.transform);
-                crossHair.transform.position = Vector3.zero;
+                if (autoCrosshair)
+                {
+                    Image crossHair = new GameObject("Crosshair").AddComponent<Image>();
+                    crossHair.sprite = Crosshair;
+                    crossHair.rectTransform.sizeDelta = new Vector2(25, 25);
+                    crossHair.transform.SetParent(canvas.transform);
+                    crossHair.transform.position = Vector3.zero;
+                }
+
+                if (drawStaminaMeter)
+                {
+                    StaminaMeterBG = new GameObject("StaminaMeter").AddComponent<Image>();
+                    StaminaMeter = new GameObject("Meter").AddComponent<Image>();
+                    StaminaMeter.transform.SetParent(StaminaMeterBG.transform);
+                    StaminaMeterBG.transform.SetParent(canvas.transform);
+                    StaminaMeterBG.transform.position = Vector3.zero;
+                    StaminaMeterBG.rectTransform.anchorMax = new Vector2(0.5f, 0);
+                    StaminaMeterBG.rectTransform.anchorMin = new Vector2(0.5f, 0);
+                    StaminaMeterBG.rectTransform.anchoredPosition = new Vector2(0, 15);
+                    StaminaMeterBG.rectTransform.sizeDelta = new Vector2(250, 6);
+                    StaminaMeterBG.color = new Color(0, 0, 0, 0);
+                    StaminaMeter.rectTransform.sizeDelta = new Vector2(250, 6);
+                    StaminaMeter.color = new Color(0, 0, 0, 0);
+                }
             }
 
-            if(drawStaminaMeter){
-                StaminaMeterBG = new GameObject("StaminaMeter").AddComponent<Image>();
-                StaminaMeter = new GameObject("Meter").AddComponent<Image>();
-                StaminaMeter.transform.SetParent(StaminaMeterBG.transform);
-                StaminaMeterBG.transform.SetParent(canvas.transform);
-                StaminaMeterBG.transform.position = Vector3.zero;
-                StaminaMeterBG.rectTransform.anchorMax = new Vector2(0.5f,0);
-                StaminaMeterBG.rectTransform.anchorMin = new Vector2(0.5f,0);
-                StaminaMeterBG.rectTransform.anchoredPosition = new Vector2(0,15);
-                StaminaMeterBG.rectTransform.sizeDelta = new Vector2(250,6);
-                StaminaMeterBG.color = new Color(0,0,0,0);
-                StaminaMeter.rectTransform.sizeDelta = new Vector2(250,6);
-                StaminaMeter.color = new Color(0,0,0,0);
+            mouseSensitivityInternal = mouseSensitivity;
+            cameraStartingPosition = playerCamera.transform.localPosition;
+            if (lockAndHideCursor)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
+
+            baseCamFOV = playerCamera.fieldOfView;
+
+            #endregion
+
+            #region Movement Settings - Start
+
+            staminaInternal = staminaLevel;
+            advanced.zeroFrictionMaterial = new PhysicMaterial("Zero_Friction");
+            advanced.zeroFrictionMaterial.dynamicFriction = 0;
+            advanced.zeroFrictionMaterial.staticFriction = 0;
+            advanced.zeroFrictionMaterial.frictionCombine = PhysicMaterialCombine.Minimum;
+            advanced.zeroFrictionMaterial.bounceCombine = PhysicMaterialCombine.Minimum;
+            advanced.highFrictionMaterial = new PhysicMaterial("Max_Friction");
+            advanced.highFrictionMaterial.dynamicFriction = 1;
+            advanced.highFrictionMaterial.staticFriction = 1;
+            advanced.highFrictionMaterial.frictionCombine = PhysicMaterialCombine.Maximum;
+            advanced.highFrictionMaterial.bounceCombine = PhysicMaterialCombine.Average;
+
+            #endregion
+
+            #region Headbobbing Settings - Start
+
+            originalLocalPosition = snapHeadjointToCapsul
+                ? new Vector3(head.localPosition.x, (capsule.height / 2) * head.localScale.y, head.localPosition.z)
+                : head.localPosition;
+            if (GetComponent<AudioSource>() == null)
+            {
+                gameObject.AddComponent<AudioSource>();
+            }
+
+            previousPosition = fps_Rigidbody.position;
+            audioSource = GetComponent<AudioSource>();
+
+            #endregion
+
+            #region BETA_SETTINGS - Start
+
+            fOVKick.fovStart = playerCamera.fieldOfView;
+
+            #endregion
         }
-        mouseSensitivityInternal = mouseSensitivity;
-        cameraStartingPosition = playerCamera.transform.localPosition;
-        if(lockAndHideCursor) { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
-        baseCamFOV = playerCamera.fieldOfView;
-        #endregion
-
-        #region Movement Settings - Start  
-        staminaInternal = staminaLevel;
-        advanced.zeroFrictionMaterial = new PhysicMaterial("Zero_Friction");
-        advanced.zeroFrictionMaterial.dynamicFriction =0;
-        advanced.zeroFrictionMaterial.staticFriction =0;
-        advanced.zeroFrictionMaterial.frictionCombine = PhysicMaterialCombine.Minimum;
-        advanced.zeroFrictionMaterial.bounceCombine = PhysicMaterialCombine.Minimum;
-        advanced.highFrictionMaterial = new PhysicMaterial("Max_Friction");
-        advanced.highFrictionMaterial.dynamicFriction =1;
-        advanced.highFrictionMaterial.staticFriction =1;
-        advanced.highFrictionMaterial.frictionCombine = PhysicMaterialCombine.Maximum;
-        advanced.highFrictionMaterial.bounceCombine = PhysicMaterialCombine.Average;
-        #endregion
-
-        #region Headbobbing Settings - Start
-        
-        originalLocalPosition = snapHeadjointToCapsul ? new Vector3(head.localPosition.x, (capsule.height/2)*head.localScale.y ,head.localPosition.z) : head.localPosition;
-        if(GetComponent<AudioSource>() == null) { gameObject.AddComponent<AudioSource>(); }
-
-        previousPosition = fps_Rigidbody.position;
-        audioSource = GetComponent<AudioSource>();
-        #endregion
-
-        #region BETA_SETTINGS - Start
-        fOVKick.fovStart = playerCamera.fieldOfView;
-        #endregion
     }
 
     private void Update()
     {
-        #region Look Settings - Update
+        if (photonView.IsMine)
+        {
+            #region Look Settings - Update
 
-            if(enableCameraMovement){
-            float mouseYInput;
-            float mouseXInput;
-            float camFOV = playerCamera.fieldOfView;
-            mouseYInput = mouseInputInversion == InvertMouseInput.None || mouseInputInversion == InvertMouseInput.X ? Input.GetAxis("Mouse Y") : -Input.GetAxis("Mouse Y");
-            mouseXInput = mouseInputInversion == InvertMouseInput.None || mouseInputInversion == InvertMouseInput.Y ? Input.GetAxis("Mouse X") : -Input.GetAxis("Mouse X");
-            if(targetAngles.y > 180) { targetAngles.y -= 360; followAngles.y -= 360; } else if(targetAngles.y < -180) { targetAngles.y += 360; followAngles.y += 360; }
-            if(targetAngles.x > 180) { targetAngles.x -= 360; followAngles.x -= 360; } else if(targetAngles.x < -180) { targetAngles.x += 360; followAngles.x += 360; }
-            targetAngles.y += mouseXInput * (mouseSensitivityInternal - ((baseCamFOV-camFOV)*fOVToMouseSensitivity)/6f);
-            targetAngles.x += mouseYInput * (mouseSensitivityInternal - ((baseCamFOV-camFOV)*fOVToMouseSensitivity)/6f);
-            targetAngles.y = Mathf.Clamp(targetAngles.y, -0.5f * Mathf.Infinity, 0.5f * Mathf.Infinity);
-            targetAngles.x = Mathf.Clamp(targetAngles.x, -0.5f * verticalRotationRange, 0.5f * verticalRotationRange);
-            followAngles = Vector3.SmoothDamp(followAngles, targetAngles, ref followVelocity, (cameraSmoothing)/100);
-            playerCamera.transform.localRotation = Quaternion.Euler(-followAngles.x + originalRotation.x,0,0);
-            transform.localRotation =  Quaternion.Euler(0, followAngles.y+originalRotation.y, 0);
-        }
-    
-        #endregion
+            if (enableCameraMovement)
+            {
+                float mouseYInput;
+                float mouseXInput;
+                float camFOV = playerCamera.fieldOfView;
+                mouseYInput = mouseInputInversion == InvertMouseInput.None || mouseInputInversion == InvertMouseInput.X
+                    ? Input.GetAxis("Mouse Y")
+                    : -Input.GetAxis("Mouse Y");
+                mouseXInput = mouseInputInversion == InvertMouseInput.None || mouseInputInversion == InvertMouseInput.Y
+                    ? Input.GetAxis("Mouse X")
+                    : -Input.GetAxis("Mouse X");
+                if (targetAngles.y > 180)
+                {
+                    targetAngles.y -= 360;
+                    followAngles.y -= 360;
+                }
+                else if (targetAngles.y < -180)
+                {
+                    targetAngles.y += 360;
+                    followAngles.y += 360;
+                }
 
-        #region  Input Settings - Update
-        didJump = canHoldJump?Input.GetButton("Jump"): Input.GetButtonDown("Jump");
+                if (targetAngles.x > 180)
+                {
+                    targetAngles.x -= 360;
+                    followAngles.x -= 360;
+                }
+                else if (targetAngles.x < -180)
+                {
+                    targetAngles.x += 360;
+                    followAngles.x += 360;
+                }
 
-        if(_crouchModifiers.useCrouch){
-            if(!_crouchModifiers.toggleCrouch){ isCrouching = _crouchModifiers.crouchOverride || Input.GetKey(_crouchModifiers.crouchKey);}
-            else{if(Input.GetKeyDown(_crouchModifiers.crouchKey)){isCrouching = !isCrouching || _crouchModifiers.crouchOverride;}}
+                targetAngles.y += mouseXInput *
+                                  (mouseSensitivityInternal - ((baseCamFOV - camFOV) * fOVToMouseSensitivity) / 6f);
+                targetAngles.x += mouseYInput *
+                                  (mouseSensitivityInternal - ((baseCamFOV - camFOV) * fOVToMouseSensitivity) / 6f);
+                targetAngles.y = Mathf.Clamp(targetAngles.y, -0.5f * Mathf.Infinity, 0.5f * Mathf.Infinity);
+                targetAngles.x = Mathf.Clamp(targetAngles.x, -0.5f * verticalRotationRange,
+                    0.5f * verticalRotationRange);
+                followAngles = Vector3.SmoothDamp(followAngles, targetAngles, ref followVelocity,
+                    (cameraSmoothing) / 100);
+                playerCamera.transform.localRotation = Quaternion.Euler(-followAngles.x + originalRotation.x, 0, 0);
+                transform.localRotation = Quaternion.Euler(0, followAngles.y + originalRotation.y, 0);
             }
-        #endregion
 
-        #region Movement Settings - Update
+            #endregion
 
-        #endregion
+            #region Input Settings - Update
 
-        #region Headbobbing Settings - Update
+            didJump = canHoldJump ? Input.GetButton("Jump") : Input.GetButtonDown("Jump");
 
-        #endregion
+            if (_crouchModifiers.useCrouch)
+            {
+                if (!_crouchModifiers.toggleCrouch)
+                {
+                    isCrouching = _crouchModifiers.crouchOverride || Input.GetKey(_crouchModifiers.crouchKey);
+                }
+                else
+                {
+                    if (Input.GetKeyDown(_crouchModifiers.crouchKey))
+                    {
+                        isCrouching = !isCrouching || _crouchModifiers.crouchOverride;
+                    }
+                }
+            }
 
-        #region BETA_SETTINGS - Update
+            #endregion
 
-        #endregion
+            #region Movement Settings - Update
+
+            #endregion
+
+            #region Headbobbing Settings - Update
+
+            #endregion
+
+            #region BETA_SETTINGS - Update
+
+            #endregion
+        }
     }
 
     private void FixedUpdate()
     {
-        #region Look Settings - FixedUpdate
-
-        #endregion
-
-        #region Movement Settings - FixedUpdate
-        
-        bool wasWalking = !isSprinting;
-        if(useStamina){
-            isSprinting = Input.GetKey(sprintKey) && !isCrouching && staminaInternal > 0 && (Mathf.Abs(fps_Rigidbody.velocity.x) > 0.01f || Mathf.Abs(fps_Rigidbody.velocity.x) > 0.01f);
-            if(isSprinting){
-                staminaInternal -= (staminaDepletionSpeed*2)*Time.deltaTime;
-                if(drawStaminaMeter){
-                    StaminaMeterBG.color = Vector4.MoveTowards(StaminaMeterBG.color, new Vector4(0,0,0,0.5f),0.15f);
-                    StaminaMeter.color = Vector4.MoveTowards(StaminaMeter.color, new Vector4(1,1,1,1),0.15f);
-                }
-            }else if((!Input.GetKey(sprintKey)||Mathf.Abs(fps_Rigidbody.velocity.x)< 0.01f || Mathf.Abs(fps_Rigidbody.velocity.x)< 0.01f || isCrouching)&&staminaInternal<staminaLevel){
-                staminaInternal += staminaDepletionSpeed*Time.deltaTime;
-            }
-                staminaInternal = Mathf.Clamp(staminaInternal,0,staminaLevel);
-                if(drawStaminaMeter&&staminaInternal==staminaLevel){
-                    StaminaMeterBG.color = Vector4.MoveTowards(StaminaMeterBG.color, new Vector4(0,0,0,0),0.15f);
-                    StaminaMeter.color = Vector4.MoveTowards(StaminaMeter.color, new Vector4(1,1,1,0),0.15f);
-                    float x = Mathf.Clamp(Mathf.SmoothDamp(StaminaMeter.transform.localScale.x,(staminaInternal/staminaLevel)*StaminaMeterBG.transform.localScale.x,ref smoothRef,(1)*Time.deltaTime,1),0.001f, StaminaMeterBG.transform.localScale.x);
-                    StaminaMeter.transform.localScale = new Vector3(x,1,1); 
-                }
-        } else{isSprinting = Input.GetKey(sprintKey);}
-
-        Vector3 dMove = Vector3.zero;
-        speed = walkByDefault ? isCrouching ? walkSpeedInternal : (isSprinting ? sprintSpeedInternal : walkSpeedInternal) : (isSprinting ? walkSpeedInternal : sprintSpeedInternal);
-        if(IsGrounded || fps_Rigidbody.velocity.y < 0.1) {
-            RaycastHit[] hits = Physics.SphereCastAll(transform.position - new Vector3(0,((capsule.height/2)*transform.localScale.y)-0.01f,0), capsule.radius,Vector3.down,0,Physics.AllLayers);
-            float nearest = float.PositiveInfinity;
-            IsGrounded = false;
-            for(int i = 0; i < hits.Length; i++) {
-                if(hits[i].distance < nearest && hits[i].collider != capsule) {
-                    IsGrounded = true;
-                    advanced.stairMiniHop = false;
-                    nearest = hits[i].distance;
-                }
-            }
-        }
-  
-
-
-       
-        if(advanced._maxSlopeAngle>0 && Physics.Raycast(transform.position - new Vector3(0,((capsule.height/2)*transform.localScale.y)-capsule.radius,0),new Vector3(dMove.x,-1.5f,dMove.z),out advanced.surfaceAngleCheck,1.5f)){
-            dMove = (transform.forward * inputXY.y * speed + transform.right * inputXY.x * walkSpeedInternal) * SlopeCheck();
-            if(SlopeCheck()<=0){didJump = false;}
-        }
-        else{
-        dMove = transform.forward * inputXY.y * speed + transform.right * inputXY.x * walkSpeedInternal;
-        }
-
-        RaycastHit WT;
-        
-
-        if(IsGrounded && advanced.maxStepHeight > 0 && Physics.Raycast(transform.position - new Vector3(0,((capsule.height/2)*transform.localScale.y)-0.01f,0),dMove,out WT,capsule.radius+0.15f) && Vector3.Angle(WT.normal, Vector3.up)>88){
-            RaycastHit ST;
-            if(!Physics.Raycast(transform.position - new Vector3(0,((capsule.height/2)*transform.localScale.y)-(advanced.maxStepHeight),0),dMove,out ST,capsule.radius+0.25f)){
-                advanced.stairMiniHop = true;
-                transform.position += new Vector3(0,advanced.maxStepHeight*1.2f,0);
-            }
-        }
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        inputXY = new Vector2(horizontalInput, verticalInput);
-        if(inputXY.magnitude > 1) { inputXY.Normalize(); }
-       
-        float yv = fps_Rigidbody.velocity.y;
-
-        if (!canJump) didJump = false;
-
-        if(IsGrounded && didJump && jumpPowerInternal > 0)
+        if (photonView.IsMine)
         {
-            yv += jumpPowerInternal;
-            IsGrounded = false;
-            didJump=false;
-        }
+            #region Look Settings - FixedUpdate
 
-        if(playerCanMove)
-        {
-            fps_Rigidbody.velocity = dMove + (Vector3.up * yv);
-        } else{fps_Rigidbody.velocity = Vector3.zero;}
+            #endregion
 
-        if(dMove.magnitude > 0 || !IsGrounded) {
-            capsule.sharedMaterial = advanced.zeroFrictionMaterial;
-        } else { capsule.sharedMaterial = advanced.highFrictionMaterial; }
-
-        fps_Rigidbody.AddForce(Physics.gravity * (advanced.gravityMultiplier - 1));
-        /* if(fOVKick.useFOVKick && wasWalking == isSprinting && fps_Rigidbody.velocity.magnitude > 0.1f && !isCrouching){
-            StopAllCoroutines();
-            StartCoroutine(wasWalking ? FOVKickOut() : FOVKickIn());
-        } */
-
-        if(_crouchModifiers.useCrouch) {
+            #region Movement Settings - FixedUpdate
             
-            if(isCrouching) {
-                    capsule.height = Mathf.MoveTowards(capsule.height, _crouchModifiers.colliderHeight/1.5f, 5*Time.deltaTime);
-                        walkSpeedInternal = walkSpeed*_crouchModifiers.crouchWalkSpeedMultiplier;
-                        jumpPowerInternal = jumpPower* _crouchModifiers.crouchJumpPowerMultiplier;
-
-                } else {
-                capsule.height = Mathf.MoveTowards(capsule.height, _crouchModifiers.colliderHeight, 5*Time.deltaTime);    
-                walkSpeedInternal = walkSpeed;
-                sprintSpeedInternal = sprintSpeed;
-                jumpPowerInternal = jumpPower;
-            }
-        }
-
-        #endregion
-
-        #region BETA_SETTINGS - FixedUpdate
-
-        #endregion
-
-        #region Headbobbing Settings - FixedUpdate
-        float yPos = 0;
-        float xPos = 0;
-        float zTilt = 0;
-        float xTilt = 0;
-        float bobSwayFactor = 0;
-        float bobFactor = 0;
-        float strideLangthen = 0;
-        float flatVel = 0;
-
-        //calculate headbob freq
-        if(useHeadbob == true || fsmode == FSMode.Dynamic){
-            Vector3 vel = (fps_Rigidbody.position - previousPosition) / Time.deltaTime;
-            Vector3 velChange = vel - previousVelocity;
-            previousPosition = fps_Rigidbody.position;
-            previousVelocity = vel;
-            springVelocity -= velChange.y;
-            springVelocity -= springPosition * springElastic;
-            springVelocity *= springDampen;
-            springPosition += springVelocity * Time.deltaTime;
-            springPosition = Mathf.Clamp(springPosition, -0.3f, 0.3f);
-
-            if(Mathf.Abs(springVelocity) < springVelocityThreshold && Mathf.Abs(springPosition) < springPositionThreshold) { springPosition = 0; springVelocity = 0; }
-            flatVel = new Vector3(vel.x, 0.0f, vel.z).magnitude;
-            strideLangthen = 1 + (flatVel * ((headbobFrequency*2)/10));
-            headbobCycle += (flatVel / strideLangthen) * (Time.deltaTime / headbobFrequency);
-            bobFactor = Mathf.Sin(headbobCycle * Mathf.PI * 2);
-            bobSwayFactor = Mathf.Sin(Mathf.PI * (2 * headbobCycle + 0.5f));
-            bobFactor = 1 - (bobFactor * 0.5f + 1);
-            bobFactor *= bobFactor;
-
-            yPos = 0;
-            xPos = 0;
-            zTilt = 0;
-            if(jumpLandIntensity>0 && !advanced.stairMiniHop){xTilt = -springPosition * (jumpLandIntensity*5.5f);}
-            else if(!advanced.stairMiniHop){xTilt = -springPosition;}
-
-            if(IsGrounded){
-                if(new Vector3(vel.x, 0.0f, vel.z).magnitude < 0.1f) { headbobFade = Mathf.MoveTowards(headbobFade, 0.0f,0.5f); } else { headbobFade = Mathf.MoveTowards(headbobFade, 1.0f, Time.deltaTime); }
-                float speedHeightFactor = 1 + (flatVel * 0.3f);
-                xPos = -(headbobSideMovement/10) * headbobFade *bobSwayFactor;
-                yPos = springPosition * (jumpLandIntensity/10) + bobFactor * (headbobHeight/10) * headbobFade * speedHeightFactor;
-                zTilt = bobSwayFactor * (headbobSwayAngle/10) * headbobFade;
-            }
-        }
-        //apply headbob position
-            if(useHeadbob == true){
-                if(fps_Rigidbody.velocity.magnitude >0.1f){
-                    head.localPosition = Vector3.MoveTowards(head.localPosition, snapHeadjointToCapsul ? (new Vector3(originalLocalPosition.x,(capsule.height/2)*head.localScale.y,originalLocalPosition.z)  + new Vector3(xPos, yPos, 0)) : originalLocalPosition + new Vector3(xPos, yPos, 0),0.5f);
-                }else{
-                    head.localPosition = Vector3.SmoothDamp(head.localPosition, snapHeadjointToCapsul ? (new Vector3(originalLocalPosition.x,(capsule.height/2)*head.localScale.y,originalLocalPosition.z)  + new Vector3(xPos, yPos, 0)) : originalLocalPosition + new Vector3(xPos, yPos, 0),ref miscRefVel, 0.15f);
-                }
-                head.localRotation = Quaternion.Euler(xTilt, 0, zTilt);
-                
-           
-        }
-        #endregion
-        
-        #region Dynamic Footsteps
-            if(fsmode == FSMode.Dynamic)
-            {   
-                RaycastHit hit = new RaycastHit();
-
-                if(Physics.Raycast(transform.position, Vector3.down, out hit)){
-                     
-                    if(dynamicFootstep.materialMode == DynamicFootStep.matMode.physicMaterial){
-                        dynamicFootstep.currentClipSet = (dynamicFootstep.woodPhysMat.Any() && dynamicFootstep.woodPhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.woodClipSet.Any()) ? // If standing on Wood
-                        dynamicFootstep.woodClipSet : ((dynamicFootstep.grassPhysMat.Any() && dynamicFootstep.grassPhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.grassClipSet.Any()) ? // If standing on Grass
-                        dynamicFootstep.grassClipSet : ((dynamicFootstep.metalAndGlassPhysMat.Any() && dynamicFootstep.metalAndGlassPhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.metalAndGlassClipSet.Any()) ? // If standing on Metal/Glass
-                        dynamicFootstep.metalAndGlassClipSet : ((dynamicFootstep.rockAndConcretePhysMat.Any() && dynamicFootstep.rockAndConcretePhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.rockAndConcreteClipSet.Any()) ? // If standing on Rock/Concrete
-                        dynamicFootstep.rockAndConcreteClipSet : ((dynamicFootstep.dirtAndGravelPhysMat.Any() && dynamicFootstep.dirtAndGravelPhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.dirtAndGravelClipSet.Any()) ? // If standing on Dirt/Gravle
-                        dynamicFootstep.dirtAndGravelClipSet : ((dynamicFootstep.mudPhysMat.Any() && dynamicFootstep.mudPhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.mudClipSet.Any())? // If standing on Mud
-                        dynamicFootstep.mudClipSet : ((dynamicFootstep.customPhysMat.Any() && dynamicFootstep.customPhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.customClipSet.Any())? // If standing on the custom material 
-                        dynamicFootstep.customClipSet : footStepSounds)))))); // If material is unknown, fall back
-                    }else if (hit.collider.GetComponent<MeshRenderer>()){
-                        dynamicFootstep.currentClipSet = (dynamicFootstep.woodMat.Any() && dynamicFootstep.woodMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.woodClipSet.Any()) ? // If standing on Wood
-                        dynamicFootstep.woodClipSet : ((dynamicFootstep.grassMat.Any() && dynamicFootstep.grassMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.grassClipSet.Any()) ? // If standing on Grass
-                        dynamicFootstep.grassClipSet : ((dynamicFootstep.metalAndGlassMat.Any() && dynamicFootstep.metalAndGlassMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.metalAndGlassClipSet.Any()) ? // If standing on Metal/Glass
-                        dynamicFootstep.metalAndGlassClipSet : ((dynamicFootstep.rockAndConcreteMat.Any() && dynamicFootstep.rockAndConcreteMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.rockAndConcreteClipSet.Any()) ? // If standing on Rock/Concrete
-                        dynamicFootstep.rockAndConcreteClipSet : ((dynamicFootstep.dirtAndGravelMat.Any() && dynamicFootstep.dirtAndGravelMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.dirtAndGravelClipSet.Any()) ? // If standing on Dirt/Gravle
-                        dynamicFootstep.dirtAndGravelClipSet : ((dynamicFootstep.mudMat.Any() && dynamicFootstep.mudMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.mudClipSet.Any())? // If standing on Mud
-                        dynamicFootstep.mudClipSet : ((dynamicFootstep.customMat.Any() && dynamicFootstep.customMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.customClipSet.Any())? // If standing on the custom material 
-                        dynamicFootstep.customClipSet : footStepSounds.Any() ? footStepSounds : null)))))); // If material is unknown, fall back
+            bool wasWalking = !isSprinting;
+            if(useStamina){
+                isSprinting = Input.GetKey(sprintKey) && !isCrouching && staminaInternal > 0 && (Mathf.Abs(fps_Rigidbody.velocity.x) > 0.01f || Mathf.Abs(fps_Rigidbody.velocity.x) > 0.01f);
+                if(isSprinting){
+                    staminaInternal -= (staminaDepletionSpeed*2)*Time.deltaTime;
+                    if(drawStaminaMeter){
+                        StaminaMeterBG.color = Vector4.MoveTowards(StaminaMeterBG.color, new Vector4(0,0,0,0.5f),0.15f);
+                        StaminaMeter.color = Vector4.MoveTowards(StaminaMeter.color, new Vector4(1,1,1,1),0.15f);
                     }
+                }else if((!Input.GetKey(sprintKey)||Mathf.Abs(fps_Rigidbody.velocity.x)< 0.01f || Mathf.Abs(fps_Rigidbody.velocity.x)< 0.01f || isCrouching)&&staminaInternal<staminaLevel){
+                    staminaInternal += staminaDepletionSpeed*Time.deltaTime;
+                }
+                    staminaInternal = Mathf.Clamp(staminaInternal,0,staminaLevel);
+                    if(drawStaminaMeter&&staminaInternal==staminaLevel){
+                        StaminaMeterBG.color = Vector4.MoveTowards(StaminaMeterBG.color, new Vector4(0,0,0,0),0.15f);
+                        StaminaMeter.color = Vector4.MoveTowards(StaminaMeter.color, new Vector4(1,1,1,0),0.15f);
+                        float x = Mathf.Clamp(Mathf.SmoothDamp(StaminaMeter.transform.localScale.x,(staminaInternal/staminaLevel)*StaminaMeterBG.transform.localScale.x,ref smoothRef,(1)*Time.deltaTime,1),0.001f, StaminaMeterBG.transform.localScale.x);
+                        StaminaMeter.transform.localScale = new Vector3(x,1,1); 
+                    }
+            } else{isSprinting = Input.GetKey(sprintKey);}
 
-                    if(IsGrounded)
-                    {
-                        if(!previousGrounded)
+            Vector3 dMove = Vector3.zero;
+            speed = walkByDefault ? isCrouching ? walkSpeedInternal : (isSprinting ? sprintSpeedInternal : walkSpeedInternal) : (isSprinting ? walkSpeedInternal : sprintSpeedInternal);
+            if(IsGrounded || fps_Rigidbody.velocity.y < 0.1) {
+                RaycastHit[] hits = Physics.SphereCastAll(transform.position - new Vector3(0,((capsule.height/2)*transform.localScale.y)-0.01f,0), capsule.radius,Vector3.down,0,Physics.AllLayers);
+                float nearest = float.PositiveInfinity;
+                IsGrounded = false;
+                for(int i = 0; i < hits.Length; i++) {
+                    if(hits[i].distance < nearest && hits[i].collider != capsule) {
+                        IsGrounded = true;
+                        advanced.stairMiniHop = false;
+                        nearest = hits[i].distance;
+                    }
+                }
+            }
+      
+
+
+           
+            if(advanced._maxSlopeAngle>0 && Physics.Raycast(transform.position - new Vector3(0,((capsule.height/2)*transform.localScale.y)-capsule.radius,0),new Vector3(dMove.x,-1.5f,dMove.z),out advanced.surfaceAngleCheck,1.5f)){
+                dMove = (transform.forward * inputXY.y * speed + transform.right * inputXY.x * walkSpeedInternal) * SlopeCheck();
+                if(SlopeCheck()<=0){didJump = false;}
+            }
+            else{
+            dMove = transform.forward * inputXY.y * speed + transform.right * inputXY.x * walkSpeedInternal;
+            }
+
+            RaycastHit WT;
+            
+
+            if(IsGrounded && advanced.maxStepHeight > 0 && Physics.Raycast(transform.position - new Vector3(0,((capsule.height/2)*transform.localScale.y)-0.01f,0),dMove,out WT,capsule.radius+0.15f) && Vector3.Angle(WT.normal, Vector3.up)>88){
+                RaycastHit ST;
+                if(!Physics.Raycast(transform.position - new Vector3(0,((capsule.height/2)*transform.localScale.y)-(advanced.maxStepHeight),0),dMove,out ST,capsule.radius+0.25f)){
+                    advanced.stairMiniHop = true;
+                    transform.position += new Vector3(0,advanced.maxStepHeight*1.2f,0);
+                }
+            }
+            float horizontalInput = Input.GetAxis("Horizontal");
+            float verticalInput = Input.GetAxis("Vertical");
+            inputXY = new Vector2(horizontalInput, verticalInput);
+            if(inputXY.magnitude > 1) { inputXY.Normalize(); }
+           
+            float yv = fps_Rigidbody.velocity.y;
+
+            if (!canJump) didJump = false;
+
+            if(IsGrounded && didJump && jumpPowerInternal > 0)
+            {
+                yv += jumpPowerInternal;
+                IsGrounded = false;
+                didJump=false;
+            }
+
+            if(playerCanMove)
+            {
+                fps_Rigidbody.velocity = dMove + (Vector3.up * yv);
+            } else{fps_Rigidbody.velocity = Vector3.zero;}
+
+            if(dMove.magnitude > 0 || !IsGrounded) {
+                capsule.sharedMaterial = advanced.zeroFrictionMaterial;
+            } else { capsule.sharedMaterial = advanced.highFrictionMaterial; }
+
+            fps_Rigidbody.AddForce(Physics.gravity * (advanced.gravityMultiplier - 1));
+            /* if(fOVKick.useFOVKick && wasWalking == isSprinting && fps_Rigidbody.velocity.magnitude > 0.1f && !isCrouching){
+                StopAllCoroutines();
+                StartCoroutine(wasWalking ? FOVKickOut() : FOVKickIn());
+            } */
+
+            if(_crouchModifiers.useCrouch) {
+                
+                if(isCrouching) {
+                        capsule.height = Mathf.MoveTowards(capsule.height, _crouchModifiers.colliderHeight/1.5f, 5*Time.deltaTime);
+                            walkSpeedInternal = walkSpeed*_crouchModifiers.crouchWalkSpeedMultiplier;
+                            jumpPowerInternal = jumpPower* _crouchModifiers.crouchJumpPowerMultiplier;
+
+                    } else {
+                    capsule.height = Mathf.MoveTowards(capsule.height, _crouchModifiers.colliderHeight, 5*Time.deltaTime);    
+                    walkSpeedInternal = walkSpeed;
+                    sprintSpeedInternal = sprintSpeed;
+                    jumpPowerInternal = jumpPower;
+                }
+            }
+
+            #endregion
+
+            #region BETA_SETTINGS - FixedUpdate
+
+            #endregion
+
+            #region Headbobbing Settings - FixedUpdate
+            float yPos = 0;
+            float xPos = 0;
+            float zTilt = 0;
+            float xTilt = 0;
+            float bobSwayFactor = 0;
+            float bobFactor = 0;
+            float strideLangthen = 0;
+            float flatVel = 0;
+
+            //calculate headbob freq
+            if(useHeadbob == true || fsmode == FSMode.Dynamic){
+                Vector3 vel = (fps_Rigidbody.position - previousPosition) / Time.deltaTime;
+                Vector3 velChange = vel - previousVelocity;
+                previousPosition = fps_Rigidbody.position;
+                previousVelocity = vel;
+                springVelocity -= velChange.y;
+                springVelocity -= springPosition * springElastic;
+                springVelocity *= springDampen;
+                springPosition += springVelocity * Time.deltaTime;
+                springPosition = Mathf.Clamp(springPosition, -0.3f, 0.3f);
+
+                if(Mathf.Abs(springVelocity) < springVelocityThreshold && Mathf.Abs(springPosition) < springPositionThreshold) { springPosition = 0; springVelocity = 0; }
+                flatVel = new Vector3(vel.x, 0.0f, vel.z).magnitude;
+                strideLangthen = 1 + (flatVel * ((headbobFrequency*2)/10));
+                headbobCycle += (flatVel / strideLangthen) * (Time.deltaTime / headbobFrequency);
+                bobFactor = Mathf.Sin(headbobCycle * Mathf.PI * 2);
+                bobSwayFactor = Mathf.Sin(Mathf.PI * (2 * headbobCycle + 0.5f));
+                bobFactor = 1 - (bobFactor * 0.5f + 1);
+                bobFactor *= bobFactor;
+
+                yPos = 0;
+                xPos = 0;
+                zTilt = 0;
+                if(jumpLandIntensity>0 && !advanced.stairMiniHop){xTilt = -springPosition * (jumpLandIntensity*5.5f);}
+                else if(!advanced.stairMiniHop){xTilt = -springPosition;}
+
+                if(IsGrounded){
+                    if(new Vector3(vel.x, 0.0f, vel.z).magnitude < 0.1f) { headbobFade = Mathf.MoveTowards(headbobFade, 0.0f,0.5f); } else { headbobFade = Mathf.MoveTowards(headbobFade, 1.0f, Time.deltaTime); }
+                    float speedHeightFactor = 1 + (flatVel * 0.3f);
+                    xPos = -(headbobSideMovement/10) * headbobFade *bobSwayFactor;
+                    yPos = springPosition * (jumpLandIntensity/10) + bobFactor * (headbobHeight/10) * headbobFade * speedHeightFactor;
+                    zTilt = bobSwayFactor * (headbobSwayAngle/10) * headbobFade;
+                }
+            }
+            //apply headbob position
+                if(useHeadbob == true){
+                    if(fps_Rigidbody.velocity.magnitude >0.1f){
+                        head.localPosition = Vector3.MoveTowards(head.localPosition, snapHeadjointToCapsul ? (new Vector3(originalLocalPosition.x,(capsule.height/2)*head.localScale.y,originalLocalPosition.z)  + new Vector3(xPos, yPos, 0)) : originalLocalPosition + new Vector3(xPos, yPos, 0),0.5f);
+                    }else{
+                        head.localPosition = Vector3.SmoothDamp(head.localPosition, snapHeadjointToCapsul ? (new Vector3(originalLocalPosition.x,(capsule.height/2)*head.localScale.y,originalLocalPosition.z)  + new Vector3(xPos, yPos, 0)) : originalLocalPosition + new Vector3(xPos, yPos, 0),ref miscRefVel, 0.15f);
+                    }
+                    head.localRotation = Quaternion.Euler(xTilt, 0, zTilt);
+                    
+               
+            }
+            #endregion
+            
+            #region Dynamic Footsteps
+                if(fsmode == FSMode.Dynamic)
+                {   
+                    RaycastHit hit = new RaycastHit();
+
+                    if(Physics.Raycast(transform.position, Vector3.down, out hit)){
+                         
+                        if(dynamicFootstep.materialMode == DynamicFootStep.matMode.physicMaterial){
+                            dynamicFootstep.currentClipSet = (dynamicFootstep.woodPhysMat.Any() && dynamicFootstep.woodPhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.woodClipSet.Any()) ? // If standing on Wood
+                            dynamicFootstep.woodClipSet : ((dynamicFootstep.grassPhysMat.Any() && dynamicFootstep.grassPhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.grassClipSet.Any()) ? // If standing on Grass
+                            dynamicFootstep.grassClipSet : ((dynamicFootstep.metalAndGlassPhysMat.Any() && dynamicFootstep.metalAndGlassPhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.metalAndGlassClipSet.Any()) ? // If standing on Metal/Glass
+                            dynamicFootstep.metalAndGlassClipSet : ((dynamicFootstep.rockAndConcretePhysMat.Any() && dynamicFootstep.rockAndConcretePhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.rockAndConcreteClipSet.Any()) ? // If standing on Rock/Concrete
+                            dynamicFootstep.rockAndConcreteClipSet : ((dynamicFootstep.dirtAndGravelPhysMat.Any() && dynamicFootstep.dirtAndGravelPhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.dirtAndGravelClipSet.Any()) ? // If standing on Dirt/Gravle
+                            dynamicFootstep.dirtAndGravelClipSet : ((dynamicFootstep.mudPhysMat.Any() && dynamicFootstep.mudPhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.mudClipSet.Any())? // If standing on Mud
+                            dynamicFootstep.mudClipSet : ((dynamicFootstep.customPhysMat.Any() && dynamicFootstep.customPhysMat.Contains(hit.collider.sharedMaterial) && dynamicFootstep.customClipSet.Any())? // If standing on the custom material 
+                            dynamicFootstep.customClipSet : footStepSounds)))))); // If material is unknown, fall back
+                        }else if (hit.collider.GetComponent<MeshRenderer>()){
+                            dynamicFootstep.currentClipSet = (dynamicFootstep.woodMat.Any() && dynamicFootstep.woodMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.woodClipSet.Any()) ? // If standing on Wood
+                            dynamicFootstep.woodClipSet : ((dynamicFootstep.grassMat.Any() && dynamicFootstep.grassMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.grassClipSet.Any()) ? // If standing on Grass
+                            dynamicFootstep.grassClipSet : ((dynamicFootstep.metalAndGlassMat.Any() && dynamicFootstep.metalAndGlassMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.metalAndGlassClipSet.Any()) ? // If standing on Metal/Glass
+                            dynamicFootstep.metalAndGlassClipSet : ((dynamicFootstep.rockAndConcreteMat.Any() && dynamicFootstep.rockAndConcreteMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.rockAndConcreteClipSet.Any()) ? // If standing on Rock/Concrete
+                            dynamicFootstep.rockAndConcreteClipSet : ((dynamicFootstep.dirtAndGravelMat.Any() && dynamicFootstep.dirtAndGravelMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.dirtAndGravelClipSet.Any()) ? // If standing on Dirt/Gravle
+                            dynamicFootstep.dirtAndGravelClipSet : ((dynamicFootstep.mudMat.Any() && dynamicFootstep.mudMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.mudClipSet.Any())? // If standing on Mud
+                            dynamicFootstep.mudClipSet : ((dynamicFootstep.customMat.Any() && dynamicFootstep.customMat.Contains(hit.collider.GetComponent<MeshRenderer>().sharedMaterial) && dynamicFootstep.customClipSet.Any())? // If standing on the custom material 
+                            dynamicFootstep.customClipSet : footStepSounds.Any() ? footStepSounds : null)))))); // If material is unknown, fall back
+                        }
+
+                        if(IsGrounded)
                         {
-                            if(dynamicFootstep.currentClipSet.Any()) { audioSource.PlayOneShot(dynamicFootstep.currentClipSet[Random.Range(0, dynamicFootstep.currentClipSet.Count)],Volume/10); }
-                            nextStepTime = headbobCycle + 0.5f;
+                            if(!previousGrounded)
+                            {
+                                if(dynamicFootstep.currentClipSet.Any()) { audioSource.PlayOneShot(dynamicFootstep.currentClipSet[Random.Range(0, dynamicFootstep.currentClipSet.Count)],Volume/10); }
+                                nextStepTime = headbobCycle + 0.5f;
+                            } else
+                            {
+                                if(headbobCycle > nextStepTime)
+                                {
+                                    nextStepTime = headbobCycle + 0.5f;
+                                    if(dynamicFootstep.currentClipSet.Any()){ audioSource.PlayOneShot(dynamicFootstep.currentClipSet[Random.Range(0, dynamicFootstep.currentClipSet.Count)],Volume/10); }
+                                }
+                            }
+                            previousGrounded = true;
                         } else
                         {
-                            if(headbobCycle > nextStepTime)
+                            if(previousGrounded)
                             {
-                                nextStepTime = headbobCycle + 0.5f;
                                 if(dynamicFootstep.currentClipSet.Any()){ audioSource.PlayOneShot(dynamicFootstep.currentClipSet[Random.Range(0, dynamicFootstep.currentClipSet.Count)],Volume/10); }
                             }
+                            previousGrounded = false;
                         }
-                        previousGrounded = true;
-                    } else
-                    {
-                        if(previousGrounded)
-                        {
-                            if(dynamicFootstep.currentClipSet.Any()){ audioSource.PlayOneShot(dynamicFootstep.currentClipSet[Random.Range(0, dynamicFootstep.currentClipSet.Count)],Volume/10); }
-                        }
-                        previousGrounded = false;
-                    }
 
-                } else {
-                    dynamicFootstep.currentClipSet = footStepSounds;
+                    } else {
+                        dynamicFootstep.currentClipSet = footStepSounds;
+                        if(IsGrounded)
+                        {
+                            if(!previousGrounded)
+                            {
+                                if(landSound){ audioSource.PlayOneShot(landSound,Volume/10); }
+                                nextStepTime = headbobCycle + 0.5f;
+                            } else
+                            {
+                                if(headbobCycle > nextStepTime)
+                                {
+                                    nextStepTime = headbobCycle + 0.5f;
+                                    int n = Random.Range(0, footStepSounds.Count);
+                                    if(footStepSounds.Any()){ audioSource.PlayOneShot(footStepSounds[n],Volume/10); }
+                                    footStepSounds[n] = footStepSounds[0];
+                                }
+                            }
+                            previousGrounded = true;
+                        } else
+                        {
+                            if(previousGrounded)
+                            {
+                                if(jumpSound){ audioSource.PlayOneShot(jumpSound,Volume/10); }
+                            }
+                            previousGrounded = false;
+                        }
+                    }
+                    
+                } else
+                {
                     if(IsGrounded)
                     {
                         if(!previousGrounded)
                         {
-                            if(landSound){ audioSource.PlayOneShot(landSound,Volume/10); }
+                            if(landSound) { audioSource.PlayOneShot(landSound,Volume/10); }
                             nextStepTime = headbobCycle + 0.5f;
                         } else
                         {
@@ -625,8 +733,8 @@ public class BETA_SETTINGS{
                             {
                                 nextStepTime = headbobCycle + 0.5f;
                                 int n = Random.Range(0, footStepSounds.Count);
-                                if(footStepSounds.Any()){ audioSource.PlayOneShot(footStepSounds[n],Volume/10); }
-                                footStepSounds[n] = footStepSounds[0];
+                                if(footStepSounds.Any() && footStepSounds[n] != null){ audioSource.PlayOneShot(footStepSounds[n],Volume/10);}
+                                
                             }
                         }
                         previousGrounded = true;
@@ -634,44 +742,15 @@ public class BETA_SETTINGS{
                     {
                         if(previousGrounded)
                         {
-                            if(jumpSound){ audioSource.PlayOneShot(jumpSound,Volume/10); }
+                            if(jumpSound) { audioSource.PlayOneShot(jumpSound,Volume/10); }
                         }
                         previousGrounded = false;
                     }
                 }
-                
-            } else
-            {
-                if(IsGrounded)
-                {
-                    if(!previousGrounded)
-                    {
-                        if(landSound) { audioSource.PlayOneShot(landSound,Volume/10); }
-                        nextStepTime = headbobCycle + 0.5f;
-                    } else
-                    {
-                        if(headbobCycle > nextStepTime)
-                        {
-                            nextStepTime = headbobCycle + 0.5f;
-                            int n = Random.Range(0, footStepSounds.Count);
-                            if(footStepSounds.Any() && footStepSounds[n] != null){ audioSource.PlayOneShot(footStepSounds[n],Volume/10);}
-                            
-                        }
-                    }
-                    previousGrounded = true;
-                } else
-                {
-                    if(previousGrounded)
-                    {
-                        if(jumpSound) { audioSource.PlayOneShot(jumpSound,Volume/10); }
-                    }
-                    previousGrounded = false;
-                }
-            }
 
-        
-        #endregion
-
+            
+            #endregion
+        }
     }
 
 /*     public IEnumerator FOVKickOut()
@@ -716,7 +795,7 @@ public class BETA_SETTINGS{
 
 #if UNITY_EDITOR
     [CustomEditor(typeof(FirstPersonAIO)),InitializeOnLoadAttribute]
-    public class FPAIO_Editor : Editor{
+    public class FPAIO_Editor: Editor{
         FirstPersonAIO t;
         SerializedObject SerT;
         static bool showCrouchMods = false;
@@ -834,6 +913,7 @@ public class BETA_SETTINGS{
             t.playerCanMove = EditorGUILayout.ToggleLeft(new GUIContent("Enable Player Movement","Determines if the player is allowed to move."),t.playerCanMove);
             GUI.enabled = t.playerCanMove;
             t.walkByDefault = EditorGUILayout.ToggleLeft(new GUIContent("Walk By Default","Determines if the default mode of movement is 'Walk' or 'Srpint'."),t.walkByDefault);
+            t.singleplayer = EditorGUILayout.ToggleLeft(new GUIContent("Singleplayer",""),t.singleplayer);
             t.walkSpeed = EditorGUILayout.Slider(new GUIContent("Walk Speed","Determines how fast the player walks."),t.walkSpeed,0.1f,10);
             t.sprintKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Sprint Key","Determines what key needs to be pressed to enter a sprint"),t.sprintKey);
             t.sprintSpeed = EditorGUILayout.Slider(new GUIContent("Sprint Speed","Determines how fast the player sprints."),t.sprintSpeed,0.1f,20);
