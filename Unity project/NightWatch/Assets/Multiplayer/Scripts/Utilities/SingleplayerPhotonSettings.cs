@@ -7,7 +7,7 @@ using UnityEngine;
 public class SingleplayerPhotonSettings : MonoBehaviourPun
 {
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         PhotonNetwork.OfflineMode = true;
     }

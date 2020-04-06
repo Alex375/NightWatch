@@ -8,9 +8,9 @@ public class CameraCheck : MonoBehaviourPun
 {
     public Camera camera;
 
-    private void Awake()
+    private void Start()
     {
-        if (!base.photonView.IsMine)
+        if (!photonView.IsMine)
         {
             camera.enabled = false;
         }
