@@ -11,12 +11,9 @@ public class doorController : MonoBehaviour
     public float angle;
     public Vector3 direction;
     public bool open;
-    public Text ToogleText;
-    public GameObject canvaToogle;
     public float openAngle;
     public float closedAngle;
-
-    private bool inBox;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -35,9 +32,6 @@ public class doorController : MonoBehaviour
             transform.Rotate(direction * speed);
         }
 
-        if (!inBox)
-            return;
-
         if (Input.GetKeyDown(KeyCode.E)) 
         {
             if (!open)
@@ -53,10 +47,10 @@ public class doorController : MonoBehaviour
 
             open ^= true;
             if (open)
-                ToogleText.text = "E to close";
+                NotificationShowing.instance.Show("E to close");
             else
             {
-                ToogleText.text = "E to open";
+                NotificationShowing.instance.Show("E to open");
             }
 
         }
@@ -64,27 +58,26 @@ public class doorController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "Player")
+        if (!other.CompareTag("Player"))
             return;
         if (open)
         {
-            ToogleText.text = "E to close";
+            NotificationShowing.instance.Show("E to close");
         }
         else
         {
-            ToogleText.text = "E to open";
+            NotificationShowing.instance.Show("E to open");
         }
-        canvaToogle.SetActive(true);
-        inBox = true;
+        enabled = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag != "Player")
+        if (!other.CompareTag("Player"))
         {
             return;
         }
-        canvaToogle.SetActive(false);
-        inBox = false;
+        NotificationShowing.instance.StopShowing();
+        enabled = false;
     }
 }
