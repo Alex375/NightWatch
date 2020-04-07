@@ -36,3 +36,40 @@ Ensuite push normal du ficher
 | Communication          |  35   |  70   |  100  |
 | Latex                  |  35   |  70   |  100  |
 
+
+
+## Documentation 
+
+### Show notification (bottom right)
+
+-   Show a notification
+
+    ```csharp
+    NotificationShowing.instance.Show("notification");
+    ```
+
+-   Stop showing (collapse the canvas)
+
+    ```csharp
+    NotificationShowing.instance.StopShowing();
+    ```
+
+-   See if the shower is currently showing
+
+    ```csharp
+    NotificationShowing.instance.IsShowing; //True if showing
+    ```
+
+    
+
+### Show mission
+
+>   Same that showing notification but with `MissionShowing`
+
+-   Exemple 
+
+    
+```csharp
+MissionShowing.instance.Show("mission");
+```
+
