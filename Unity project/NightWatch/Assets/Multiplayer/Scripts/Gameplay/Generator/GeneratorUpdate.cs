@@ -9,7 +9,6 @@ public class GeneratorUpdate : MonoBehaviourPun
     private GameObject player;
     private PlayerMovement script;
     private AnimationCondition anim;
-    private Mission scriptMission;
     private float time;
     public bool IsRepaired = false;
     
@@ -29,7 +28,6 @@ public class GeneratorUpdate : MonoBehaviourPun
         player = PlayerReference.GetComponent<PlayerSpawn>().localGameObject;
         script = player.GetComponent<PlayerMovement>();
         anim = player.GetComponentInChildren<AnimationCondition>();
-        scriptMission = mission.GetComponent<Mission>();
     }
 
     // Update is called once per frame
@@ -46,8 +44,8 @@ public class GeneratorUpdate : MonoBehaviourPun
                 generatorSlider.value = time / timeToRepair;
                 if (time >= timeToRepair)
                 {
+                    print("RPC Started");
                     photonView.RPC("IncreaseGenerator", RpcTarget.All);
-                    light.enabled = true;
                 }
             }
             else
@@ -70,7 +68,10 @@ public class GeneratorUpdate : MonoBehaviourPun
     [PunRPC]
     void IncreaseGenerator()
     {
+        print("RPC Received");
+        light.enabled = true;
         IsRepaired = true;
-        scriptMission.IncreaseGenerator();
+        mission.GetComponent<Mission>().IncreaseGenerator();
+        print("IncreaseGenerator sent");
     }
 }

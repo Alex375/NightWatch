@@ -16,7 +16,7 @@ public class Generator : MonoBehaviourPunCallbacks
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.tag == "Player" && (bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"])
+        if (other.tag == "Player" && other.GetComponent<PhotonView>().IsMine && (bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"])
         {
             NotificationShowing.instance.Show("Press E to repair the generator");
             script.enabled = true;
@@ -25,7 +25,7 @@ public class Generator : MonoBehaviourPunCallbacks
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player" && NotificationShowing.instance.IsShowing && (bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"])
+        if (other.tag == "Player" && NotificationShowing.instance.IsShowing && other.GetComponent<PhotonView>().IsMine && (bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"])
         {
             NotificationShowing.instance.StopShowing();
             script.enabled = false;
