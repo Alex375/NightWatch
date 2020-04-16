@@ -24,7 +24,6 @@ public class PlayerList : MonoBehaviourPunCallbacks
         else
         {
             PlayerButton button = Instantiate(playerButton, content);
-            button.transform.parent = transform;
             if (button != null)
             {
                 button.SetPlayerInfo(player);
