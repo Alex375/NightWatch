@@ -8,33 +8,27 @@ public class AnimationCondition : MonoBehaviourPun
 {
     public Animator anim;
     public bool StayIdle = false;
+    public GameObject Player;
+
+    private FlashLightControll flashLight;
+
+    private void Start()
+    {
+        flashLight = Player.GetComponent<FlashLightControll>();
+    }
 
     void Update()
     {
         if (photonView.IsMine || PhotonNetwork.OfflineMode)
         {
-            if ((Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.D)) && !StayIdle)
+            anim.SetBool("HasLamp",flashLight.HasTorchLamp);
+            if (!StayIdle)
             {
-                anim.SetFloat("vertical",1f);
-                
-                if (Input.GetKey(KeyCode.Z))
-                {
-                    if (Input.GetKey(KeyCode.LeftShift))
-                        anim.SetFloat("horizontal",4f);
-                    else
-                        anim.SetFloat("horizontal",0f);
-                }
-                    
-                else if (Input.GetKey(KeyCode.S))
-                    anim.SetFloat("horizontal",1f);
-                else if (Input.GetKey(KeyCode.Q))
-                    anim.SetFloat("horizontal",2f);
-                else if (Input.GetKey(KeyCode.D))
-                    anim.SetFloat("horizontal",3f);
-            }
-            else
-            {
-                anim.SetFloat("vertical",0f);
+                if (Input.GetKey(KeyCode.LeftShift))
+                    anim.SetFloat("vertical", Input.GetAxis("Vertical") * 2);
+                else
+                    anim.SetFloat("vertical", Input.GetAxis("Vertical"));
+                anim.SetFloat("horizontal",Input.GetAxis("Horizontal"));
             }
         }
     }
