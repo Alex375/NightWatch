@@ -17,7 +17,7 @@ public class BatteryBoxScript : MonoBehaviour
 
     private void Update()
     {
-        PlayerManager playerManager = PlayerManager.instance;
+        PlayerManagerLo playerManager = PlayerManagerLo.instance;
         if (Input.GetKey(KeyCode.E) && playerManager.Batteries < playerManager.MaxBatteries)
         {
             playerManager.Batteries++;
@@ -28,7 +28,7 @@ public class BatteryBoxScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        PlayerManager playerManager = PlayerManager.instance;
+        PlayerManagerLo playerManager = PlayerManagerLo.instance;
         if (!other.CompareTag("Player")) return;
         if (playerManager.Batteries >= playerManager.MaxBatteries)
             NotificationShowing.instance.Show("Maximum stack of batteries");

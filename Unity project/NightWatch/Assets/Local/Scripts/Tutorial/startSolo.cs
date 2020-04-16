@@ -8,7 +8,7 @@ public class startSolo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SceneManager.LoadScene("Global/Resources/Scenes/Solo scene/Solo");
+        SceneManager.LoadScene("Global/Resources/Scenes/NewSolo/NewSolo");
     }
 
     // Update is called once per frame

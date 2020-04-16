@@ -8,7 +8,7 @@ public class Batterie : MonoBehaviour
     public float battery = 100, maxBattery = 100;
     Rect batteryRect;
     Texture2D batteryTexture;
-    private PlayerManager _playerManager;
+    private PlayerManagerLo _playerManager;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +18,7 @@ public class Batterie : MonoBehaviour
 
     private void Awake()
     {
-        _playerManager = FindObjectOfType<PlayerManager>();
+        _playerManager = FindObjectOfType<PlayerManagerLo>();
     }
     // Update is called once per frame
 
