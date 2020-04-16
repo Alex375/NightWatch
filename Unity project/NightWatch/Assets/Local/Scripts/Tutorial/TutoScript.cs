@@ -5,9 +5,6 @@ using UnityEngine;
 public class TutoScript : MonoBehaviour
 {
 
-    public GameObject CurrentMission;
-    public GameObject NextMission;
-
     public GameObject ZButtton;
     public GameObject QButtton;
     public GameObject SButtton;
@@ -46,8 +43,7 @@ public class TutoScript : MonoBehaviour
 
         if (ZPressed && QPressed && SPressed && DPressed)
         {
-            CurrentMission.SetActive(false);
-            NextMission.SetActive(true);
+            MissionManager.instance.NextMission();
         }
     }
 }

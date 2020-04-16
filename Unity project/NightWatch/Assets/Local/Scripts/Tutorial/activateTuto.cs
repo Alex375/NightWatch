@@ -6,14 +6,17 @@ public class activateTuto : MonoBehaviour
 {
 
     public Animation animation;
+    
 
-    public GameObject tuto;
+    public GameObject UI;
     // Update is called once per frame
     void Update()
     {
         if (!animation.isPlaying)
         {
-            tuto.SetActive(true);
+            UI.SetActive(true);
+            MissionManager.instance.QuitAllMission();
+            MissionManager.instance.ActivateMission(0);
             enabled = false;
         }
     }

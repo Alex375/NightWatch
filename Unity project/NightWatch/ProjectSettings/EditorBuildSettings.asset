@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Global/Resources/Scenes/Main menu scene/Main Menu.unity
     guid: 4ab4722ae42be754aaead8ebc4088e7f
   - enabled: 1
-    path: Assets/Global/Resources/Scenes/Multiplayer scene/Multiplayer.unity
-    guid: 5b5608ea377a1e8479bf78fb1f9b893a
+    path: Assets/Global/Resources/Scenes/New multiplayer/NewMultiplayer.unity
+    guid: 4883271280b79234faca75b9689c1ba1
   - enabled: 1
     path: Assets/Global/Resources/Scenes/NewSolo/NewSolo.unity
     guid: d0041db045ba0d04d869535141a768eb

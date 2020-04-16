@@ -21,6 +21,11 @@ public class animationbeginning : MonoBehaviour
     public AudioSource wind;
 
     public AudioSource bird;
+
+    public doorController DoorController;
+
+    public Animation SunsetAnimation;
+    
     
     // Start is called before the first frame update
     void Awake()
@@ -30,6 +35,8 @@ public class animationbeginning : MonoBehaviour
         musicIntro.SetActive(true);
         fadeBird.enabled = true;
         fadeWind.enabled = true;
+        DoorController.CloseDoor();
+        SunsetAnimation.enabled = true;
 
     }
 
@@ -41,7 +48,7 @@ public class animationbeginning : MonoBehaviour
             textNigtWatch.SetActive(true);
             wind.loop = false;
             bird.loop = false;
-            enabled = false;
+            MissionManager.instance.NextMission();
         }
     }
 }

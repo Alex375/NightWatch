@@ -7,17 +7,24 @@ using UnityEngine;
 public class AnimationCondition : MonoBehaviourPun
 {
     public Animator anim;
-    
+    public bool StayIdle = false;
+
     void Update()
     {
         if (photonView.IsMine || PhotonNetwork.OfflineMode)
         {
-            if (Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.D))
+            if ((Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.D)) && !StayIdle)
             {
                 anim.SetFloat("vertical",1f);
-            
+                
                 if (Input.GetKey(KeyCode.Z))
-                    anim.SetFloat("horizontal",0f);
+                {
+                    if (Input.GetKey(KeyCode.LeftShift))
+                        anim.SetFloat("horizontal",4f);
+                    else
+                        anim.SetFloat("horizontal",0f);
+                }
+                    
                 else if (Input.GetKey(KeyCode.S))
                     anim.SetFloat("horizontal",1f);
                 else if (Input.GetKey(KeyCode.Q))

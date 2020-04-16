@@ -80,4 +80,13 @@ public class doorController : MonoBehaviour
         NotificationShowing.instance.StopShowing();
         enabled = false;
     }
+
+    public void CloseDoor()
+    {
+        if (open)
+        {
+            angle = closedAngle;
+            direction = -Vector3.up;
+        }
+    }
 }

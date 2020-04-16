@@ -5,19 +5,12 @@ using UnityEngine;
 
 public class BeginCinScript : MonoBehaviour
 {
-
-    public GameObject CanvaMission;
-    public GameObject BoxObject;
-
-    public GameObject Cinematic;
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            CanvaMission.SetActive(false);
-            Cinematic.SetActive(true);
-            BoxObject.SetActive(false);
+            MissionManager.instance.NextMission();
         }
     }
 }
