@@ -37,5 +37,7 @@ MonoBehaviour:
   - RPC_ChangeReadyState
   - IncreaseGenerator
   - ModifyHealthRPC
+  - SetLightOnMulti
+  - SetTorchLampMultiplayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
