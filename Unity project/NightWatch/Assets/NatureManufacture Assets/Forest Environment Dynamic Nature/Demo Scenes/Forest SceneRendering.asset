@@ -38,11 +38,11 @@ MonoBehaviour:
   m_AdvancedMode: 0
   depthExtent:
     m_OverrideState: 1
-    m_Value: 334
+    m_Value: 9999999
     min: 0.1
   sliceDistributionUniformity:
     m_OverrideState: 1
-    m_Value: 0.75
+    m_Value: 0
     min: 0
     max: 1
 --- !u!114 &11400000
