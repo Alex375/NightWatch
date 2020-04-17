@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: Forest Demo PostProcessing
+  m_Name: Forest Scene post-process night
   m_EditorClassIdentifier: 
   components:
   - {fileID: 8711377374188185572}
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   temperature:
     m_OverrideState: 1
-    m_Value: 31
+    m_Value: 0
     min: -100
     max: 100
   tint:
@@ -419,7 +419,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   mode:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   meteringMode:
     m_OverrideState: 0
     m_Value: 2
@@ -428,16 +428,16 @@ MonoBehaviour:
     m_Value: 1
   fixedExposure:
     m_OverrideState: 1
-    m_Value: 9.2
+    m_Value: 2
   compensation:
     m_OverrideState: 1
-    m_Value: 0.75
+    m_Value: -2.93
   limitMin:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: -20
   limitMax:
     m_OverrideState: 1
-    m_Value: 25
+    m_Value: 20
   curveMap:
     m_OverrideState: 0
     m_Value:
