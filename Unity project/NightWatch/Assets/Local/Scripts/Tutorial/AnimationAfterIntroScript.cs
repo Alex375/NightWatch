@@ -11,6 +11,7 @@ public class AnimationAfterIntroScript : MonoBehaviour
     public RawImage RImage;
     public GameObject[] DaysObjects;
     public GameObject[] NightObject;
+    private bool changedDay = false;
     void Update()
     {
         if (!TitleAnimation.isPlaying)
@@ -19,8 +20,10 @@ public class AnimationAfterIntroScript : MonoBehaviour
         }
         else
         {
-            if (RImage.color.a > 0.90)
+            if (!changedDay && RImage.color.a == 1)
             {
+                FPPCamera.SetActive(true);
+                AnimationCamera.SetActive(false);
                 foreach (var d in DaysObjects)
                 {
                     d.SetActive(false);
@@ -30,13 +33,9 @@ public class AnimationAfterIntroScript : MonoBehaviour
                 {
                     n.SetActive(true);
                 }
+
+                changedDay = true;
             }
         }
-    }
-
-    private void OnDisable()
-    {
-        FPPCamera.SetActive(true);
-        AnimationCamera.SetActive(false);
     }
 }
