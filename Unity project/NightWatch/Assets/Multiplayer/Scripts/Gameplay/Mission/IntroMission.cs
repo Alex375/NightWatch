@@ -11,9 +11,12 @@ public class IntroMission : MonoBehaviourPun
     public GameObject AnimSurvivor;
     public GameObject AnimMonster;
 
+    private bool isSurvivor;
+
     private void Start()
     {
-        if ((bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"])
+        isSurvivor = (bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"];
+        if (isSurvivor)
         {
             print("ok");
             AnimSurvivor.SetActive(true);
@@ -29,7 +32,7 @@ public class IntroMission : MonoBehaviourPun
 
     void Update()
     {
-        if (!Anim.isPlaying)
+        if (!Anim.isPlaying && isSurvivor)
         {
             photonView.RPC("GoNextMission",RpcTarget.All);
         }

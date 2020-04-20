@@ -13,7 +13,8 @@ public class MissionNightTransition : MonoBehaviourPun
     public Text Text;
     public GameObject MissionManager;
     public GameObject AnimPlayer;
-    public List<Animation> AnimMonster;
+    public Animation A1;
+    public Animation A2;
 
     private bool isSurvivor;
     private bool stopSendRpc = false;
@@ -21,13 +22,17 @@ public class MissionNightTransition : MonoBehaviourPun
     private void Start()
     {
         isSurvivor = (bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"];
+    }
+
+    private void OnEnable()
+    {
         if (!isSurvivor)
         {
             AnimPlayer.SetActive(false);
-            foreach (Animation a in AnimMonster)
-            {
-                a.enabled = true;
-            }
+            A1.enabled = true;
+            A2.enabled = true;
+            A1.Play("transNightMonsterBack");
+            A2.Play("transNightMonsterText");
         }
     }
     
