@@ -38,11 +38,11 @@ MonoBehaviour:
   m_AdvancedMode: 0
   depthExtent:
     m_OverrideState: 1
-    m_Value: 334
+    m_Value: 9999999
     min: 0.1
   sliceDistributionUniformity:
     m_OverrideState: 1
-    m_Value: 0.75
+    m_Value: 0
     min: 0
     max: 1
 --- !u!114 &11400000
@@ -157,7 +157,7 @@ MonoBehaviour:
     m_Value: 0
   exposure:
     m_OverrideState: 1
-    m_Value: 1.25
+    m_Value: 10.38
   multiplier:
     m_OverrideState: 1
     m_Value: 1.88
@@ -181,7 +181,7 @@ MonoBehaviour:
     m_Value: 0
   sunSize:
     m_OverrideState: 1
-    m_Value: 0.034
+    m_Value: 0.117
     min: 0
     max: 1
   sunSizeConvergence:
@@ -303,7 +303,7 @@ MonoBehaviour:
     min: 0
   indirectDiffuseIntensity:
     m_OverrideState: 1
-    m_Value: 0.9
+    m_Value: 800
     min: 0
 --- !u!114 &4861428343617320629
 MonoBehaviour:

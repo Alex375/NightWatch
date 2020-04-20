@@ -71,7 +71,7 @@ public class GeneratorUpdate : MonoBehaviourPun
         print("RPC Received");
         light.enabled = true;
         IsRepaired = true;
-        mission.GetComponent<Mission>().IncreaseGenerator();
+        mission.GetComponent<MissionGenerator>().IncreaseGenerator();
         print("IncreaseGenerator sent");
     }
 }

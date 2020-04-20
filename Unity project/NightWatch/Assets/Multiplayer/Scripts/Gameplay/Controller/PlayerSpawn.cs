@@ -8,39 +8,89 @@ using Random = System.Random;
 public class PlayerSpawn : MonoBehaviourPunCallbacks
 {
     public GameObject localGameObject;
-    private void Start()
+
+    public bool TestMode = false;
+
+    private List<GameObject> playerList;
+    public override void OnJoinedRoom()
     {
-        if (PhotonNetwork.LocalPlayer.CustomProperties["Survivor"] != null)
+        if (TestMode)
         {
-            if ((bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"])
+            base.OnJoinedRoom();
+            if (PhotonNetwork.LocalPlayer.CustomProperties["Survivor"] != null)
             {
-                Random rnd = new Random();
-                int nb = rnd.Next(1, 5);
-                if (nb == 1)
+                if ((bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"])
                 {
-                    localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(221, 39, 92), new Quaternion(0, 0, 0, 0));
+                    Random rnd = new Random();
+                    int nb = rnd.Next(1, 5);
+                    if (nb == 1)
+                    {
+                        localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(221, 39, 92), new Quaternion(0, 0, 0, 0));
+                    }
+                    else if (nb == 2)
+                    {
+                        localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(112, 35, 160), new Quaternion(0, 0, 0, 0));
+                    }
+                    else if (nb == 3)
+                    {
+                        localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(114, 32, 131), new Quaternion(0, 0, 0, 0));
+                    }
+                    else if (nb == 4)
+                    {
+                        localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(123, 35, 63), new Quaternion(0, 0, 0, 0));
+                    }
+                    else if (nb == 5)
+                    {
+                        localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(172, 32, 41), new Quaternion(0, 0, 0, 0));
+                    }
+                    
                 }
-                else if (nb == 2)
+                else
                 {
-                    localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(112, 35, 160), new Quaternion(0, 0, 0, 0));
-                }
-                else if (nb == 3)
-                {
-                    localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(114, 32, 131), new Quaternion(0, 0, 0, 0));
-                }
-                else if (nb == 4)
-                {
-                    localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(123, 35, 63), new Quaternion(0, 0, 0, 0));
-                }
-                else if (nb == 5)
-                {
-                    localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(172, 32, 41), new Quaternion(0, 0, 0, 0));
+                    localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Monster", new Vector3(221, 39, 92), new Quaternion(0, 0, 0, 0));
                 }
                 
             }
-            else
+        }
+    }
+
+    private void Start()
+    {
+        if (!TestMode)
+        {
+            if (PhotonNetwork.LocalPlayer.CustomProperties["Survivor"] != null)
             {
-                localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Monster", new Vector3(221, 39, 92), new Quaternion(0, 0, 0, 0));
+                if ((bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"])
+                {
+                    Random rnd = new Random();
+                    int nb = rnd.Next(1, 5);
+                    if (nb == 1)
+                    {
+                        localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(221, 39, 92), new Quaternion(0, 0, 0, 0));
+                    }
+                    else if (nb == 2)
+                    {
+                        localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(112, 35, 160), new Quaternion(0, 0, 0, 0));
+                    }
+                    else if (nb == 3)
+                    {
+                        localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(114, 32, 131), new Quaternion(0, 0, 0, 0));
+                    }
+                    else if (nb == 4)
+                    {
+                        localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(123, 35, 63), new Quaternion(0, 0, 0, 0));
+                    }
+                    else if (nb == 5)
+                    {
+                        localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Player", new Vector3(172, 32, 41), new Quaternion(0, 0, 0, 0));
+                    }
+                    
+                }
+                else
+                {
+                    localGameObject = PhotonNetwork.Instantiate("PhotonPrefabs/Monster", new Vector3(221, 39, 92), new Quaternion(0, 0, 0, 0));
+                }
+                
             }
         }
     }

@@ -6,38 +6,24 @@ using UnityEngine.AI;
 
 public class StagIA : MonoBehaviour
 {
-    private float timeIdle;
     private bool Walking;
     private bool Running;
-
-    private string waiting = "idle2";
-    private string eating = "idle1";
+    private bool Stopped;
+    
 
     public NavMeshAgent bot;
-    public Animation anim;
-    public Transform botPos;
     public CharacterController controller;
-    public Transform player;
+    public Animator anim;
+    
     private Vector3 velocity;
+    
     private void Update()
     {
-        /*
-        if (anim.IsPlaying(waiting) && timeIdle > 15f)
-        {
-            timeIdle = 0;
-            anim.Play(eating);
-        }
-        else if (anim.IsPlaying(eating) && timeIdle > 7.5f)
-        {
-            timeIdle = 0;
-            anim.Play(waiting);
-        }
-        else if (anim.IsPlaying(waiting) || anim.IsPlaying(eating))
-        {
-            timeIdle += Time.deltaTime;
-        }*/
-
-        if (!Walking && !Running)
+        if (bot.pathEndPosition == transform.position)
+            ChangeState("stopped");
+        
+        // Gravity
+        if (Stopped)
         {
             if (controller.isGrounded && velocity.y < 0)
             {
@@ -45,42 +31,72 @@ public class StagIA : MonoBehaviour
             }
 
             velocity.y += -9.81f * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime); 
+            controller.Move(velocity * Time.deltaTime);
         }
     }
 
     private void Start()
     {
-        timeIdle = 0;
-        Walking = false;
-        Running = false;
+        ChangeState("stopped");
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.tag == "Player")
         {
-            
-            if (!Walking && !Running)
+            if (Stopped)
             {
-                anim.Play("walk");
-                Walking = true;
-                bot.speed = 3.5f;
-                float vecteurX = botPos.position.x - player.position.x;
-                float vecteurZ = botPos.position.z - player.position.z;
-                bot.SetDestination(new Vector3(botPos.position.x + vecteurX, botPos.position.y, botPos.position.z  + vecteurZ));
-            }
-            else if (!Running)
-            {
-                anim.Play("run");
-                Running = true;
-                Walking = false;
-                bot.speed = 6f;
-                float vecteurX = botPos.position.x - player.position.x;
-                float vecteurZ = botPos.position.z - player.position.z;
-                bot.SetDestination(new Vector3(botPos.position.x + vecteurX, botPos.position.y, botPos.position.z  + vecteurZ));
+                ChangeState("walking");
+                MoveIA(other);
             }
 
+            if (Walking)
+            {
+                ChangeState("running");
+                MoveIA(other);
+            }
         }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            MoveIA(other);
+        }
+    }
+
+    private void ChangeState(string state)
+    {
+        if (state == "stopped")
+        {
+            bot.speed = 0f;
+            anim.SetFloat("vertical",0f);
+            Running = false;
+            Walking = false;
+            Stopped = true;
+        }
+        else if (state == "walking")
+        {
+            bot.speed = 3.5f;
+            anim.SetFloat("vertical",1f);
+            Running = false;
+            Walking = true;
+            Stopped = false;
+        }
+        else
+        {
+            bot.speed = 6f;
+            anim.SetFloat("vertical",2f);
+            Running = true;
+            Walking = false;
+            Stopped = false;
+        }
+    }
+    private void MoveIA(Collider other)
+    {
+        float vecteurX = (transform.position.x - other.transform.position.x) * 2;
+        float vecteurZ = (transform.position.z - other.transform.position.z) * 2;
+        bot.SetDestination(new Vector3(transform.position.x + vecteurX, transform.position.y, transform.position.z  + vecteurZ));
     }
 }

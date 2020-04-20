@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BatteryIconScrpit : MonoBehaviour
+public class BatteryIconScrpit : MonoBehaviourPun
 {
     private int[] _batteryLimit = new int[] {-10, 0, 37, 67, 90, 110};
     public Image image;
@@ -19,6 +20,17 @@ public class BatteryIconScrpit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        object survivor = PhotonNetwork.LocalPlayer.CustomProperties["Survivor"];
+        
+        if (survivor == null)
+        {
+            gameObject.SetActive(false);
+        }
+        else if (!(bool) survivor)
+        {
+            gameObject.SetActive(false);
+        }
+        
         currentI = 5;
         _sprites = new Sprite[]{l0, l25, l50, l75, l100};
     }
