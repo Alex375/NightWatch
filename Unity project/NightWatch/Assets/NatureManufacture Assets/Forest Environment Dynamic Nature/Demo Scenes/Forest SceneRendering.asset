@@ -181,7 +181,7 @@ MonoBehaviour:
     m_Value: 0
   sunSize:
     m_OverrideState: 1
-    m_Value: 0.034
+    m_Value: 0.117
     min: 0
     max: 1
   sunSizeConvergence:
