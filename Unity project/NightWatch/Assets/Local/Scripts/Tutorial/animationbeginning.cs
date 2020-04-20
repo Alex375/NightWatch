@@ -23,8 +23,7 @@ public class animationbeginning : MonoBehaviour
     public AudioSource bird;
 
     public doorController DoorController;
-
-    public Animation SunsetAnimation;
+    
     
     
     // Start is called before the first frame update
@@ -36,7 +35,6 @@ public class animationbeginning : MonoBehaviour
         fadeBird.enabled = true;
         fadeWind.enabled = true;
         DoorController.CloseDoor();
-        SunsetAnimation.enabled = true;
 
     }
 
