@@ -46,5 +46,6 @@ MonoBehaviour:
   - GoNextMission
   - ActivateNight
   - NextMission
+  - SwitchLoadingMenu
   DisableAutoOpenWizard: 1
   ShowSettings: 1
