@@ -180,6 +180,27 @@ MonoBehaviour:
   longRangeSpeed: 4
   shortRangeSpeed: 6
   destination: {fileID: 0}
+  Sound: {fileID: 0}
+  Anim: {fileID: 7473006718161453539}
+--- !u!95 &7473006718161453539
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3680310967576735414}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: bbfcbb4e5aa36834c8d69bff658b2a85, type: 2}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &4626034941580146623
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -247,8 +268,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: RABBIT
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -5716681864270162303, guid: 807496c96dd155f4f9cfdf14e022a354, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 807496c96dd155f4f9cfdf14e022a354, type: 3}
+--- !u!1 &3680310967576735414 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 807496c96dd155f4f9cfdf14e022a354,
+    type: 3}
+  m_PrefabInstance: {fileID: 4626034941580146623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &380640529617280165 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 807496c96dd155f4f9cfdf14e022a354,

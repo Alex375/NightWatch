@@ -6,17 +6,17 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
+    public Animator Anim;
     public float nearLookRadius = 10f;
     public float middleLookRadius = 15f;
     public float longLookRadius = 20f;
     public float nearSpeed = 2f;
     public float midleSpeed = 6f;
     public float longSpeed = 3f;
-
-
+    
     private Transform target;
     private NavMeshAgent agent;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,26 +38,34 @@ public class EnemyController : MonoBehaviour
 
         if (distance <= longLookRadius)
         {
+            if (distance > agent.stoppingDistance)
+            {
+                Anim.SetFloat("vertical",1f);
+            }
             agent.SetDestination(target.position);
             agent.isStopped = false;
             if (distance < nearLookRadius)
             {
+                Anim.SetFloat("horizontal",2f);
                 agent.speed = nearSpeed;
                 return;
             }
             if (distance < middleLookRadius)
             {
+                Anim.SetFloat("horizontal",1f);
                 agent.speed = midleSpeed;
                 return;
             }
-            if (distance < middleLookRadius)
+            if (distance < longLookRadius)
             {
-                agent.speed = midleSpeed;
+                Anim.SetFloat("horizontal",0f);
+                agent.speed = longSpeed;
                 return;
             }
         }
         else
         {
+            Anim.SetFloat("vertical",0f);
             agent.isStopped = true;
         }
 
@@ -79,6 +87,7 @@ public class EnemyController : MonoBehaviour
 
     public void PlayerHit()
     {
+        Anim.SetFloat("vertical",2f);
         print("Player died");
     }
 }

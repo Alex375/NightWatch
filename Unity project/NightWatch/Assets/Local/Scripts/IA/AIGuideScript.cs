@@ -14,6 +14,7 @@ public class AIGuideScript : MonoBehaviour
 
     public GameObject destination;
     public GameObject Sound;
+    public Animator Anim;
 
     private NavMeshAgent _agent;
     private Vector3 destinationPos;
@@ -41,19 +42,23 @@ public class AIGuideScript : MonoBehaviour
         
         if (distance <= longRangeRadius)
         {
+            Anim.SetFloat("vertical",1f);
             _agent.isStopped = false;
             _agent.SetDestination(destinationPos);
             if (distance <= shortRangeRadius)
             {
+                Anim.SetFloat("horizontal",0f);
                 _agent.speed = shortRangeRadius;
             }
             else
             {
+                Anim.SetFloat("horizontal",1f);
                 _agent.speed = longRangeSpeed;
             }
         }
         else
         {
+            Anim.SetFloat("vertical",0f);
             _agent.isStopped = true;
         }
     }
