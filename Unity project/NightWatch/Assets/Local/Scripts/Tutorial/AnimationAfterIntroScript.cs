@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,8 @@ public class AnimationAfterIntroScript : MonoBehaviour
     public GameObject FPPCamera;
     public Animation TitleAnimation;
     public RawImage RImage;
+    public GameObject ATH;
+    public GameObject ScreamSource;
     public GameObject[] DaysObjects;
     public GameObject[] NightObject;
     private bool changedDay = false;
@@ -22,6 +25,7 @@ public class AnimationAfterIntroScript : MonoBehaviour
         {
             if (!changedDay && RImage.color.a == 1)
             {
+                ScreamSource.SetActive(true);
                 FPPCamera.SetActive(true);
                 AnimationCamera.SetActive(false);
                 foreach (var d in DaysObjects)
@@ -33,9 +37,14 @@ public class AnimationAfterIntroScript : MonoBehaviour
                 {
                     n.SetActive(true);
                 }
-
+                
                 changedDay = true;
             }
         }
+    }
+
+    private void OnDisable()
+    {
+        ATH.SetActive(true);
     }
 }
