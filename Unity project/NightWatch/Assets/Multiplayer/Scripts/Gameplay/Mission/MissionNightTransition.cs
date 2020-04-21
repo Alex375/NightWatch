@@ -18,14 +18,10 @@ public class MissionNightTransition : MonoBehaviourPun
 
     private bool isSurvivor;
     private bool stopSendRpc = false;
-
-    private void Start()
-    {
-        isSurvivor = (bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"];
-    }
-
+    
     private void OnEnable()
     {
+        isSurvivor = (bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"];
         if (!isSurvivor)
         {
             AnimPlayer.SetActive(false);

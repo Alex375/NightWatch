@@ -10,8 +10,7 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
     public GameObject localGameObject;
 
     public bool TestMode = false;
-
-    private List<GameObject> playerList;
+    
     public override void OnJoinedRoom()
     {
         if (TestMode)
@@ -92,6 +91,7 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
                 }
                 
             }
+            
         }
     }
 }
