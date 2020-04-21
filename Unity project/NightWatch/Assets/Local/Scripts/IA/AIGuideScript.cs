@@ -21,12 +21,19 @@ public class AIGuideScript : MonoBehaviour
     {
         _agent = GetComponent<NavMeshAgent>();
         destinationPos = destination.transform.position;
+        MissionManager.instance.ActivateMission("DeadStagMission");
     }
-
+    
     private void Update()
     {
         float distance = Vector3.Distance(transform.position, PlayerManagerLo.instance.player.transform.position);
 
+        if (Vector3.Distance(destinationPos, transform.position) <= _agent.stoppingDistance)
+        {
+            MissionManager.instance.DesactivateMission("FireflyMission");
+            MissionManager.instance.DesactivateMission("RabbitMission");
+        }
+        
         if (distance <= longRangeRadius)
         {
             _agent.isStopped = false;
