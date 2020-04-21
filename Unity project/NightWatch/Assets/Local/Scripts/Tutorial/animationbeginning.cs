@@ -30,6 +30,7 @@ public class animationbeginning : MonoBehaviour
     void Awake()
     {
         fppCamera.SetActive(false);
+        PlayerManagerLo.instance.AudioListenerSetActive(false);
         cinematicCamera.SetActive(true);
         musicIntro.SetActive(true);
         fadeBird.enabled = true;

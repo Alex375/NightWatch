@@ -64,4 +64,10 @@ public class PlayerManagerLo : MonoBehaviour
         Batteries--;
         CurrentBatteryLevel = 100;
     }
+
+    public void AudioListenerSetActive(bool active)
+    {
+        AudioListener audioListener = GetComponent<AudioListener>();
+        audioListener.enabled = active;
+    }
 }
