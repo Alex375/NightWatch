@@ -44,31 +44,60 @@ public class MissionManager : MonoBehaviour
     }
 
     public void ActivateMission(string name)
-    {
-        for (int i = 0; i < MissionQueue.Count; i++)
-        {
-            if (MissionQueue[i].name == name)
-            {
-                MissionQueue[i].SetActive(true);
-                currentMissionIndex = i;
-                CurrentMission = MissionQueue[i];
-                return;
-            }
-        }
-        Debug.LogError($"ActivateMission5(string name) No mission reponding to the name of {name} check the name.");
-    }
+         {
+             for (int i = 0; i < MissionQueue.Count; i++)
+             {
+                 if (MissionQueue[i].name == name)
+                 {
+                     MissionQueue[i].SetActive(true);
+                     currentMissionIndex = i;
+                     CurrentMission = MissionQueue[i];
+                     return;
+                 }
+             }
+             Debug.LogError($"ActivateMission5(string name) No mission reponding to the name of {name} check the name.");
+         }
+     
+         public void ActivateMission(int index)
+         {
+             try
+             {
+                 MissionQueue[index].SetActive(true);
+                 currentMissionIndex = index;
+                 CurrentMission = MissionQueue[index];
+             }
+             catch (IndexOutOfRangeException)
+             {
+                 Debug.LogError($"ActivateMission(int index) Index out of bound for index {index} max index : {MissionQueue.Count}.");
+             }
+         }
+         public void DesactivateMission(string name)
+         {
+             for (int i = 0; i < MissionQueue.Count; i++)
+             {
+                 if (MissionQueue[i].name == name)
+                 {
+                     MissionQueue[i].SetActive(false);
+                     currentMissionIndex = i;
+                     CurrentMission = MissionQueue[i];
+                     return;
+                 }
+             }
+             Debug.LogError($"ActivateMission5(string name) No mission reponding to the name of {name} check the name.");
+         }
 
-    public void ActivateMission(int index)
-    {
-        try
-        {
-            MissionQueue[index].SetActive(true);
-            currentMissionIndex = index;
-            CurrentMission = MissionQueue[index];
-        }
-        catch (IndexOutOfRangeException)
-        {
-            Debug.LogError($"ActivateMission(int index) Index out of bound for index {index} max index : {MissionQueue.Count}.");
-        }
-    }
+         public void DesactivateMission(int index)
+         {
+             try
+             {
+                 MissionQueue[index].SetActive(false);
+                 currentMissionIndex = index;
+                 CurrentMission = MissionQueue[index];
+             }
+             catch (IndexOutOfRangeException)
+             {
+                 Debug.LogError($"ActivateMission(int index) Index out of bound for index {index} max index : {MissionQueue.Count}.");
+             }
+         }
+    
 }
