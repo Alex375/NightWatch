@@ -98,9 +98,10 @@ public class FlashLightControll : MonoBehaviourPun
     [PunRPC]
     private void SetLightOnMulti(bool state, int id)
     {
-        if (state && PlayerManagerLo.instance.CurrentBatteryLevel <= 0 && photonView.ViewID != id)
-            return;
-        light.enabled = state;
-        LightOn = state;
+        if (id == photonView.ViewID && PlayerManagerLo.instance.CurrentBatteryLevel <= 0)
+        {
+            light.enabled = state;
+            LightOn = state;
+        }
     }
 }

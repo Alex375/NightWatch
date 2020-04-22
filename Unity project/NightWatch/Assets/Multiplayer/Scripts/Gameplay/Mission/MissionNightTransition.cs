@@ -38,12 +38,18 @@ public class MissionNightTransition : MonoBehaviourPun
         {
             if (Text.color.a >= 1 && !stopSendRpc)
             {
-                photonView.RPC("ActivateNight",RpcTarget.All);
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    photonView.RPC("ActivateNight",RpcTarget.All);
+                }
             }
 
             if (!AnimPanel.isPlaying)
             {
-                photonView.RPC("NextMission",RpcTarget.All);
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    photonView.RPC("NextMission",RpcTarget.All);
+                }
             }
         }
     }
