@@ -16,7 +16,8 @@ public class CameraCheck : MonoBehaviourPun
         {
             camera.enabled = false;
             GetComponent<AudioListener>().enabled = false;
-            audio.enabled = false;
+            if ((bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"])
+                audio.enabled = false;
         }
     }
 }

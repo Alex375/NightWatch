@@ -1950,6 +1950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 2211369910556603536}
+  audio: {fileID: 9041336368108931923}
 --- !u!114 &2655529278065733377
 MonoBehaviour:
   m_ObjectHideFlags: 0
