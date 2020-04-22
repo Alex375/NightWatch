@@ -206,6 +206,9 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 2
     Name: horizontal
+  - Type: 4
+    SynchronizeType: 2
+    Name: HasLamp
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0

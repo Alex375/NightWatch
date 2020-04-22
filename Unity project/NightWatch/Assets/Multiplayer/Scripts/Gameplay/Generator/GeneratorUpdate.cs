@@ -35,7 +35,7 @@ public class GeneratorUpdate : MonoBehaviourPun
     {
         if (Input.GetKey(KeyCode.E) && (bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"])
         {
-            if (!IsRepaired)
+            if (!IsRepaired && mission.activeSelf)
             {
                 script.SetMove(false);
                 anim.StayIdle = true;

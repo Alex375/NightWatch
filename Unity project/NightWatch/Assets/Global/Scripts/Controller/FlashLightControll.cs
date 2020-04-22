@@ -19,14 +19,16 @@ public class FlashLightControll : MonoBehaviourPun
     {
         IsOffline = PhotonNetwork.OfflineMode;
         
-        SetTorchLamp(HasTorchLamp);
-        
+        if (IsOffline)
+            SetTorchLamp(HasTorchLamp);
+        else
+            photonView.RPC("SetTorchLampMultiplayer",RpcTarget.All,HasTorchLamp,photonView.ViewID);
+
         if (!IsOffline)
             photonView.RPC("SetLightOnMulti",RpcTarget.All,LightOn && HasTorchLamp,photonView.ViewID);
         else
             SetLightOn(LightOn && HasTorchLamp);
-        
-        
+            
     }
 
 
@@ -40,7 +42,7 @@ public class FlashLightControll : MonoBehaviourPun
             {
                 if (IsOffline)
                     SetLightOn(false);
-                else if (light.enabled) 
+                else
                     photonView.RPC("SetLightOnMulti",RpcTarget.All,false,photonView.ViewID);
             }
         }
@@ -98,7 +100,7 @@ public class FlashLightControll : MonoBehaviourPun
     [PunRPC]
     private void SetLightOnMulti(bool state, int id)
     {
-        if (id == photonView.ViewID && PlayerManagerLo.instance.CurrentBatteryLevel <= 0)
+        if (id == photonView.ViewID && PlayerManagerLo.instance.CurrentBatteryLevel > 0)
         {
             light.enabled = state;
             LightOn = state;
