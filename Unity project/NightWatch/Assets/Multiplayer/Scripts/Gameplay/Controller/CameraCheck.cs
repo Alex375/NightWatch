@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using UnityEditor;
 using UnityEngine;
 
 public class CameraCheck : MonoBehaviourPun
 {
     public Camera camera;
+    public AudioSource audio;
 
     private void Start()
     {
@@ -14,6 +16,7 @@ public class CameraCheck : MonoBehaviourPun
         {
             camera.enabled = false;
             GetComponent<AudioListener>().enabled = false;
+            audio.enabled = false;
         }
     }
 }
