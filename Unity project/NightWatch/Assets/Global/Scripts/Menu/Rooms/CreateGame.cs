@@ -20,6 +20,9 @@ public class CreateGame : MonoBehaviourPunCallbacks
     private bool ready = false;
     public Button readyButton;
     public Button startButton;
+    public List<GameObject> toDesactivate;
+    public List<GameObject> toActivate;
+    
     private ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
     private bool everyoneIsReady;
     
@@ -50,6 +53,7 @@ public class CreateGame : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
+            photonView.RPC("SwitchLoadingMenu",RpcTarget.All);
             PhotonNetwork.LoadLevel(1);
             foreach (KeyValuePair<int, Player> playerInfo in PhotonNetwork.CurrentRoom.Players)
             {
@@ -96,6 +100,20 @@ public class CreateGame : MonoBehaviourPunCallbacks
             readyButton.interactable = true;
             startButton.interactable = false;
             SetReady(false); 
+        }
+    }
+
+    [PunRPC]
+    private void SwitchLoadingMenu()
+    {
+        foreach (GameObject g in toDesactivate)
+        {
+            g.SetActive(false);
+        }
+
+        foreach (GameObject g in toActivate)
+        {
+            g.SetActive(true);
         }
     }
 }

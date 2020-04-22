@@ -13,6 +13,7 @@ public class CameraCheck : MonoBehaviourPun
         if (!photonView.IsMine)
         {
             camera.enabled = false;
+            GetComponent<AudioListener>().enabled = false;
         }
     }
 }

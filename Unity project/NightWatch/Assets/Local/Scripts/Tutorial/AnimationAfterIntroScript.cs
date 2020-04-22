@@ -6,12 +6,14 @@ using UnityEngine.UI;
 
 public class AnimationAfterIntroScript : MonoBehaviour
 {
+    public GameObject MusicSource;
     public GameObject AnimationCamera;
     public GameObject FPPCamera;
     public Animation TitleAnimation;
     public RawImage RImage;
     public GameObject ATH;
     public GameObject ScreamSource;
+    public GameObject NightSound;
     public GameObject[] DaysObjects;
     public GameObject[] NightObject;
     private bool changedDay = false;
@@ -27,6 +29,7 @@ public class AnimationAfterIntroScript : MonoBehaviour
             {
                 ScreamSource.SetActive(true);
                 FPPCamera.SetActive(true);
+                PlayerManagerLo.instance.AudioListenerSetActive(true);
                 AnimationCamera.SetActive(false);
                 foreach (var d in DaysObjects)
                 {
@@ -45,6 +48,8 @@ public class AnimationAfterIntroScript : MonoBehaviour
 
     private void OnDisable()
     {
+        NightSound.SetActive(true);
+        MusicSource.SetActive(false);
         ATH.SetActive(true);
     }
 }
