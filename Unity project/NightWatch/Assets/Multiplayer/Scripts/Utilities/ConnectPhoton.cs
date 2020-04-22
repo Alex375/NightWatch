@@ -8,24 +8,21 @@ public class ConnectPhoton : MonoBehaviourPunCallbacks
 {
     
     // Start is called before the first frame update
-    void Start()
+
+    public void Awake()
     {
+        base.OnEnable();
         PhotonNetwork.GameVersion = MasterManager.GameSettings.GameVersion;
-        PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.NickName = MasterManager.GameSettings.NickName;
+        PhotonNetwork.ConnectUsingSettings();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
+    
     public override void OnConnectedToMaster()
     {
         /*print("Connected to master server");
         print(PhotonNetwork.LocalPlayer.NickName);*/
-        PhotonNetwork.JoinLobby();
+        PhotonNetwork.JoinLobby(TypedLobby.Default);
     }
 
     public override void OnDisconnected(DisconnectCause cause)
