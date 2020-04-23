@@ -47,5 +47,6 @@ MonoBehaviour:
   - ActivateNight
   - NextMission
   - SwitchLoadingMenu
+  - HideRpcPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1

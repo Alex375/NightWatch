@@ -51,7 +51,7 @@ public class FlashLightControll : MonoBehaviourPun
 
     private void OnGUI()
     {
-        if (Event.current.Equals(Event.KeyboardEvent("F")) && HasTorchLamp)
+        if (Event.current.Equals(Event.KeyboardEvent("F")) && HasTorchLamp && photonView.IsMine)
         {
             if (IsOffline)
                 SetLightOn(!LightOn);
