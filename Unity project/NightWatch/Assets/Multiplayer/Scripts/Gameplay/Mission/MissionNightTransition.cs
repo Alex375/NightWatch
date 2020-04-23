@@ -17,7 +17,8 @@ public class MissionNightTransition : MonoBehaviourPun
     public Animation A2;
 
     private bool isSurvivor;
-    private bool stopSendRpc = false;
+    private bool stopSendRpcNight = false;
+    private bool stopSendRpcMission = false;
     
     private void OnEnable()
     {
@@ -32,24 +33,18 @@ public class MissionNightTransition : MonoBehaviourPun
         }
     }
     
-    void Update()
+    void Update() 
     {
         if (isSurvivor)
         {
-            if (Text.color.a >= 1 && !stopSendRpc)
+            if (Text.color.a >= 1 && !stopSendRpcNight)
             {
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    photonView.RPC("ActivateNight",RpcTarget.All);
-                }
+                photonView.RPC("ActivateNight",RpcTarget.All);
             }
 
-            if (!AnimPanel.isPlaying)
+            if (!AnimPanel.isPlaying && !stopSendRpcMission)
             {
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    photonView.RPC("NextMission",RpcTarget.All);
-                }
+                photonView.RPC("NextMission",RpcTarget.All);
             }
         }
     }
@@ -57,22 +52,30 @@ public class MissionNightTransition : MonoBehaviourPun
     [PunRPC]
     private void ActivateNight()
     {
-        stopSendRpc = true;
-        foreach (GameObject gameObject in NightElements)
+        if (!stopSendRpcNight)
         {
-            gameObject.SetActive(true);
-        }
+            foreach (GameObject gameObject in NightElements)
+            {
+                gameObject.SetActive(true);
+            }
             
-        foreach (GameObject gameObject in DayElements)
-        {
-            gameObject.SetActive(false);
+            foreach (GameObject gameObject in DayElements)
+            {
+                gameObject.SetActive(false);
+            }
         }
+        stopSendRpcNight = true;
     }
 
     [PunRPC]
     private void NextMission()
     {
-        MissionManager.GetComponent<MissionManagerMultiplayer>().StartNextMission();
+        if (!stopSendRpcMission)
+        {
+            MissionManager.GetComponent<MissionManagerMultiplayer>().StartNextMission();
+        }
+
+        stopSendRpcMission = false;
     }
 }
 

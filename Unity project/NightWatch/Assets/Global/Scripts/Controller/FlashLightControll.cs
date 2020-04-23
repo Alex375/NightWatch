@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class FlashLightControll : MonoBehaviourPun
@@ -55,7 +56,7 @@ public class FlashLightControll : MonoBehaviourPun
             if (IsOffline)
                 SetLightOn(!LightOn);
             else
-                photonView.RPC("SetLightOnMulti",RpcTarget.All,!LightOn,photonView.ViewID);
+                photonView.RPC("SetLightOnMulti",RpcTarget.All,!LightOn,PhotonNetwork.LocalPlayer);
         }
         
         if (Event.current.Equals(Event.KeyboardEvent("R")) && HasTorchLamp)
@@ -98,9 +99,9 @@ public class FlashLightControll : MonoBehaviourPun
     }
 
     [PunRPC]
-    private void SetLightOnMulti(bool state, int id)
+    private void SetLightOnMulti(bool state, Player player)
     {
-        if (id == photonView.ViewID && PlayerManagerLo.instance.CurrentBatteryLevel > 0)
+        if (Equals(player,PhotonNetwork.LocalPlayer) && PlayerManagerLo.instance.CurrentBatteryLevel > 0)
         {
             light.enabled = state;
             LightOn = state;
