@@ -2004,7 +2004,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasTorchLamp: 0
-  LightOn: 0
+  LightOn: 1
   light: {fileID: 1957153349733632888}
   DecraeseBatteryPerUpdate: 1
   TorchLamp: {fileID: 5795124198464805997}

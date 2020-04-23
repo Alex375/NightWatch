@@ -26,10 +26,10 @@ public class FlashLightControll : MonoBehaviourPun
             photonView.RPC("SetTorchLampMultiplayer",RpcTarget.All,HasTorchLamp,photonView.ViewID);
 
         if (!IsOffline)
-            photonView.RPC("SetLightOnMulti",RpcTarget.All,LightOn && HasTorchLamp,PhotonNetwork.LocalPlayer);
+            light.enabled = true;
         else
             SetLightOn(LightOn && HasTorchLamp);
-            
+
     }
 
 
@@ -43,8 +43,6 @@ public class FlashLightControll : MonoBehaviourPun
             {
                 if (IsOffline)
                     SetLightOn(false);
-                else
-                    photonView.RPC("SetLightOnMulti",RpcTarget.All,false,photonView.ViewID);
             }
         }
     }
@@ -55,8 +53,6 @@ public class FlashLightControll : MonoBehaviourPun
         {
             if (IsOffline)
                 SetLightOn(!LightOn);
-            else
-                photonView.RPC("SetLightOnMulti",RpcTarget.All,!LightOn,PhotonNetwork.LocalPlayer);
         }
         
         if (Event.current.Equals(Event.KeyboardEvent("R")) && HasTorchLamp)
