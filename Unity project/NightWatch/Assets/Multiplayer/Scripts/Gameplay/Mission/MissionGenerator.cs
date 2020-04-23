@@ -28,6 +28,7 @@ public class MissionGenerator : MonoBehaviourPunCallbacks
         {
             MissionShowing.instance.StopShowing();
             NotificationShowing.instance.StopShowing();
+            ManagerGameObject.GetComponent<MissionManagerMultiplayer>().StartNextMission();
         }
         
     }

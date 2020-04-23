@@ -54,6 +54,7 @@ public class MissionCamper : MonoBehaviourPun
         {
             MissionShowing.instance.StopShowing();
             NotificationShowing.instance.StopShowing();
+            MissionManagerMultiplayer.StartNextMission();
         }
     }
     
