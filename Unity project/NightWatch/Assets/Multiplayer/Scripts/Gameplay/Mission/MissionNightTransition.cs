@@ -32,22 +32,6 @@ public class MissionNightTransition : MonoBehaviourPun
             A2.Play("transNightMonsterText");
         }
     }
-    
-    void Update() 
-    {
-        if (isSurvivor)
-        {
-            if (Text.color.a >= 1 && !stopSendRpcNight)
-            {
-                photonView.RPC("ActivateNight",RpcTarget.All);
-            }
-
-            if (!AnimPanel.isPlaying && !stopSendRpcMission)
-            {
-                photonView.RPC("NextMission",RpcTarget.All);
-            }
-        }
-    }
 
     [PunRPC]
     private void ActivateNight()
