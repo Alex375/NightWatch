@@ -14,5 +14,6 @@ public class DieScreen : MonoBehaviour
         {
             g.SetActive(false);
         }
+        gameObject.GetComponent<HidePlayer>().HideLocalPlayer();
     }
 }

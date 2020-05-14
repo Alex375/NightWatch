@@ -13,7 +13,7 @@ public class MissionCamper : MonoBehaviourPun
     private MissionManagerMultiplayer MissionManagerMultiplayer;
     void Start()
     {
-        nbMax = PhotonNetwork.CountOfPlayersInRooms - 1;
+        nbMax = PhotonNetwork.PlayerList.Length - 1;
         MissionShowing.instance.StopShowing();
         if ((bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"])
         {

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class FlashLightControll : MonoBehaviourPun
@@ -19,14 +20,16 @@ public class FlashLightControll : MonoBehaviourPun
     {
         IsOffline = PhotonNetwork.OfflineMode;
         
-        SetTorchLamp(HasTorchLamp);
-        
+        if (IsOffline)
+            SetTorchLamp(HasTorchLamp);
+        else
+            photonView.RPC("SetTorchLampMultiplayer",RpcTarget.All,HasTorchLamp,photonView.ViewID);
+
         if (!IsOffline)
-            photonView.RPC("SetLightOnMulti",RpcTarget.All,LightOn && HasTorchLamp,photonView.ViewID);
+            light.enabled = true;
         else
             SetLightOn(LightOn && HasTorchLamp);
-        
-        
+
     }
 
 
@@ -40,20 +43,16 @@ public class FlashLightControll : MonoBehaviourPun
             {
                 if (IsOffline)
                     SetLightOn(false);
-                else if (light.enabled) 
-                    photonView.RPC("SetLightOnMulti",RpcTarget.All,false,photonView.ViewID);
             }
         }
     }
 
     private void OnGUI()
     {
-        if (Event.current.Equals(Event.KeyboardEvent("F")) && HasTorchLamp)
+        if (Event.current.Equals(Event.KeyboardEvent("F")) && HasTorchLamp && photonView.IsMine)
         {
             if (IsOffline)
                 SetLightOn(!LightOn);
-            else
-                photonView.RPC("SetLightOnMulti",RpcTarget.All,!LightOn,photonView.ViewID);
         }
         
         if (Event.current.Equals(Event.KeyboardEvent("R")) && HasTorchLamp)
@@ -96,11 +95,12 @@ public class FlashLightControll : MonoBehaviourPun
     }
 
     [PunRPC]
-    private void SetLightOnMulti(bool state, int id)
+    private void SetLightOnMulti(bool state, Player player)
     {
-        if (state && PlayerManagerLo.instance.CurrentBatteryLevel <= 0 && photonView.ViewID != id)
-            return;
-        light.enabled = state;
-        LightOn = state;
+        if (Equals(player,PhotonNetwork.LocalPlayer) && PlayerManagerLo.instance.CurrentBatteryLevel > 0)
+        {
+            light.enabled = state;
+            LightOn = state;
+        }
     }
 }

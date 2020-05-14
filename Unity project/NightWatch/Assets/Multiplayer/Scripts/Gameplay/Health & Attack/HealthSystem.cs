@@ -17,7 +17,7 @@ public class HealthSystem : MonoBehaviourPun
 
     private void Update()
     {
-        if (health <= 0)
+        if (health <= 0 && photonView.IsMine)
         {
             DeathScreen = GameObject.FindWithTag("Dead");
             DeathScreen.GetComponent<Canvas>().enabled = true;

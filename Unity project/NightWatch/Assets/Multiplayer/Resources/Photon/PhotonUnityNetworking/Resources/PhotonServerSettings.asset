@@ -16,9 +16,9 @@ MonoBehaviour:
     AppIdRealtime: cf6253a1-2bf2-47ff-9b3e-03f668d4aa16
     AppIdChat: 
     AppIdVoice: 
-    AppVersion: 
+    AppVersion: 1
     UseNameServer: 1
-    FixedRegion: 
+    FixedRegion: eu
     Server: 
     Port: 0
     Protocol: 0
@@ -47,5 +47,6 @@ MonoBehaviour:
   - ActivateNight
   - NextMission
   - SwitchLoadingMenu
+  - HideRpcPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
