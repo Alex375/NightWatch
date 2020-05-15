@@ -23,7 +23,8 @@ public class GameLoader : MonoBehaviour
     public static PlayerData playerData;
     public static MissionData missionData;
     public static bool hasLoad = false;
-    
+    public NightShiftingScript nightShiftingScript;
+
     private void Awake()
     {
         if (!LoadGame)
@@ -49,6 +50,11 @@ public class GameLoader : MonoBehaviour
             // ignored
         }
 
+        if (persistentData.night)
+        {
+            nightShiftingScript.ShiftToNihgt();
+        }
+        
         batteryDispatcher.ActivateComponents(persistentData.activeElements);
         missionData = new MissionData
         {

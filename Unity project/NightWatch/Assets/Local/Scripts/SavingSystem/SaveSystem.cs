@@ -11,7 +11,7 @@ public static class SaveSystem
         string path = Application.persistentDataPath + "/saveData.persistentData";
         FileStream stream = new FileStream(path, FileMode.Create);
         
-        PersistentData data = new PersistentData(playerManagerLo, activeComponents, activeMissions, currentMission);
+        PersistentData data = new PersistentData(playerManagerLo, activeComponents, activeMissions, currentMission, NightShiftingScript.night);
         
         formatter.Serialize(stream, data);
         stream.Close();

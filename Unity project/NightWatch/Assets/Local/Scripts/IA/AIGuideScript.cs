@@ -25,19 +25,17 @@ public class AIGuideScript : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         destinationPos = destination.transform.position;
         MissionManager.instance.ActivateMission("DeadStagMission");
+        MissionManager.instance.currentMissionIndex--;
     }
     
     private void Update()
     {
         float distance = Vector3.Distance(transform.position, PlayerManagerLo.instance.player.transform.position);
-        float dis = Vector3.Distance(destinationPos, transform.position);
-        print(dis);
         if (Vector3.Distance(destinationPos, transform.position) <= _agent.stoppingDistance)
         {
             print("arrived");
             Sound.SetActive(true);
-            MissionManager.instance.DesactivateMission("FireflyMission");
-            MissionManager.instance.DesactivateMission("RabbitMission");
+            MissionManager.instance.NextMission();
         }
         
         if (distance <= longRangeRadius)

@@ -12,10 +12,11 @@ public class PersistentData
     public bool[] activeElements;
     public bool[] activeMissions;
     public int currentMission;
+    public bool night;
 
 
     public PersistentData(PlayerManagerLo playerManager, bool[] activeElements, bool[] activeMissions,
-        int currentMission)
+        int currentMission, bool night)
     {
         batteryLevel = playerManager.CurrentBatteryLevel;
         stackBattery = playerManager.Batteries;
@@ -27,6 +28,7 @@ public class PersistentData
         this.activeElements = activeElements;
         this.activeMissions = activeMissions;
         this.currentMission = currentMission;
+        this.night = night;
     }
     
 }

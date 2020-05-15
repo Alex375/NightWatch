@@ -22,7 +22,7 @@ public class MissionManager : MonoBehaviour
     public static GameObject CurrentMission { get; private set; }
     public BatteryDispatcher batteryDispatcher;
     public List<GameObject> MissionQueue;
-    private int currentMissionIndex = 0;
+    public int currentMissionIndex = 0;
 
 
     public void QuitAllMission()
