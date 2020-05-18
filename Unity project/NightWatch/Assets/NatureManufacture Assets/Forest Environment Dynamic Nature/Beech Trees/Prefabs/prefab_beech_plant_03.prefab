@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 174615018477711312}
   - component: {fileID: 5721103386059360398}
+  - component: {fileID: 4688052156424844251}
   m_Layer: 0
   m_Name: prefab_beech_plant_03
   m_TagString: Untagged
@@ -56,6 +57,22 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2766035913047114463}
   m_Enabled: 1
+--- !u!208 &4688052156424844251
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174615018477220848}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.3, y: 1.5320001, z: 0.3}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.527752, z: -0.05}
+  m_TimeToStationary: 0.5
 --- !u!1 &1791245173634933417
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,6 +138,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -144,6 +162,7 @@ GameObject:
   - component: {fileID: 4786009139713339979}
   - component: {fileID: 4105301161604199183}
   - component: {fileID: 2882202750794003516}
+  - component: {fileID: 7728750742901730406}
   m_Layer: 0
   m_Name: beech_plant_03_LOD0
   m_TagString: Untagged
@@ -198,6 +217,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -210,3 +230,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!136 &7728750742901730406
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5236069892285146242}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.15
+  m_Height: 3.063727
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.5277522, z: -0.05}

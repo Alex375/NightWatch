@@ -90,7 +90,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.43
+  m_Radius: 0.8
   m_Height: 22.598114
   m_Direction: 1
   m_Center: {x: 0.01, y: 11.27, z: 0.08}
@@ -104,6 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2820464487858776852}
   - component: {fileID: 3411427327495060944}
+  - component: {fileID: 8293209757224527989}
   m_Layer: 0
   m_Name: prefab_beech_tree_09
   m_TagString: Untagged
@@ -160,6 +161,22 @@ LODGroup:
     renderers:
     - renderer: {fileID: 4461661108821139992}
   m_Enabled: 1
+--- !u!208 &8293209757224527989
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260748801560008967}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.43, y: 11.299055, z: 0.43}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.01, y: 11.27, z: 0.08}
+  m_TimeToStationary: 0.5
 --- !u!1 &3059677210307620617
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1750250167912832790}
   - component: {fileID: 1396794648248067650}
   - component: {fileID: 8528530661985261482}
+  - component: {fileID: 8423190929785802658}
   m_Layer: 0
   m_Name: beech_plant_01_LOD0
   m_TagString: Untagged
@@ -65,6 +66,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -77,6 +79,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!136 &8423190929785802658
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371693925466168213}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 1.615185
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.806425, z: 0}
 --- !u!1 &2759802819176584568
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +158,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -164,6 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7903578372507464605}
   - component: {fileID: 2352582146017842371}
+  - component: {fileID: 7393262417608732400}
   m_Layer: 0
   m_Name: prefab_beech_plant_01
   m_TagString: Untagged
@@ -210,3 +228,19 @@ LODGroup:
     renderers:
     - renderer: {fileID: 3321716826777181333}
   m_Enabled: 1
+--- !u!208 &7393262417608732400
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7903578372507430845}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.2, y: 0.808, z: 0.2}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.806425, z: 0}
+  m_TimeToStationary: 0.5

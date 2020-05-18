@@ -65,7 +65,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 1.0190314
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -143,7 +143,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 0.80188304
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -167,6 +167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7251145916443630652}
   - component: {fileID: 3001671769371196266}
+  - component: {fileID: 4420487352804113246}
   m_Layer: 0
   m_Name: prefab_beech_tree_00_C
   m_TagString: Untagged
@@ -218,6 +219,22 @@ LODGroup:
     renderers:
     - renderer: {fileID: 6198646850762720377}
   m_Enabled: 1
+--- !u!208 &4420487352804113246
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7251145916443394076}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.35, y: 2.7020001, z: 0.35}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 2.696336, z: -0.1757205}
+  m_TimeToStationary: 0.5
 --- !u!1 &7607357305509808574
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,6 +246,7 @@ GameObject:
   - component: {fileID: 5264165030989870206}
   - component: {fileID: 1432800598081091960}
   - component: {fileID: 4115532916035876593}
+  - component: {fileID: 531521311991196213}
   m_Layer: 0
   m_Name: beech_tree_00_C_LOD0
   m_TagString: Untagged
@@ -297,3 +315,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!136 &531521311991196213
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7607357305509808574}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.2
+  m_Height: 5.4036613
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.6963356, z: -0.17572045}
