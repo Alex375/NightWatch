@@ -11,8 +11,8 @@ public class EnemyController : MonoBehaviour
     public float nearLookRadius = 10f;
     public float middleLookRadius = 15f;
     public float longLookRadius = 20f;
-    public float nearSpeed = 2f;
-    public float midleSpeed = 6f;
+    public float nearSpeed = 5f;
+    public float midleSpeed = 4f;
     public float longSpeed = 3f;
 
     public PatrolPointScript PatrolPoint;
@@ -80,7 +80,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            Anim.SetFloat("horizontal",0f);
+            Anim.SetFloat("horizontal",1f);
             if (!patrolBehaviour)
             {
                 SetPatrolBehavior();

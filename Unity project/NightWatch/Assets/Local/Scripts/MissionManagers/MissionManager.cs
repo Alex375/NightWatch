@@ -110,7 +110,7 @@ public class MissionManager : MonoBehaviour
 
      public void LoadMission(bool[] activeMissions, int currentMission)
      {
-         if (activeMissions.Length != MissionQueue.Count)
+         if (activeMissions.Length > MissionQueue.Count)
              throw new VerificationException("LoadMission : activeMission array must fit to the size of missionQueue array");
          if (currentMission < 0 || currentMission > MissionQueue.Count)
              throw new VerificationException($"LoadMission : current mission msut be : -1 < currentMission < {MissionQueue.Count} and has been set to {currentMission} ");
