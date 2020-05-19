@@ -5,13 +5,13 @@ using System.Runtime.Serialization.Formatters.Binary;
 public static class SaveSystem 
 {
 
-    public static void SaveGame(PlayerManagerLo playerManagerLo, bool[] activeComponents, bool[] activeMissions, int currentMission)
+    public static void SaveGame(PlayerManagerLo playerManagerLo, bool[] activeComponents, bool[] activeMissions, int currentMission, bool enemyActive, Vector3 enemyPosition)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/saveData.persistentData";
         FileStream stream = new FileStream(path, FileMode.Create);
         
-        PersistentData data = new PersistentData(playerManagerLo, activeComponents, activeMissions, currentMission, NightShiftingScript.night);
+        PersistentData data = new PersistentData(playerManagerLo, activeComponents, activeMissions, currentMission, NightShiftingScript.night, enemyActive, enemyPosition);
         
         formatter.Serialize(stream, data);
         stream.Close();

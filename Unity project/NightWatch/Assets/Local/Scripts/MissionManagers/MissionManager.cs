@@ -23,6 +23,7 @@ public class MissionManager : MonoBehaviour
     public BatteryDispatcher batteryDispatcher;
     public List<GameObject> MissionQueue;
     public int currentMissionIndex = 0;
+    public GameObject Enemy;
 
 
     public void QuitAllMission()
@@ -47,7 +48,7 @@ public class MissionManager : MonoBehaviour
         }
         MissionQueue[currentMissionIndex].SetActive(true);
         CurrentMission = MissionQueue[currentMissionIndex];
-        SaveSystem.SaveGame(PlayerManagerLo.instance, batteryDispatcher.GetActiveComponets(), getActiveMission(), currentMissionIndex);
+        SaveSystem.SaveGame(PlayerManagerLo.instance, batteryDispatcher.GetActiveComponets(), getActiveMission(), currentMissionIndex, Enemy.activeSelf, Enemy.transform.position);
     }
 
     public void ActivateMission(string name)

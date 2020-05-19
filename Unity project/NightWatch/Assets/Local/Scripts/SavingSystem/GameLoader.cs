@@ -24,6 +24,7 @@ public class GameLoader : MonoBehaviour
     public static MissionData missionData;
     public static bool hasLoad = false;
     public NightShiftingScript nightShiftingScript;
+    public GameObject Enemy;
 
     private void Awake()
     {
@@ -54,7 +55,9 @@ public class GameLoader : MonoBehaviour
         {
             nightShiftingScript.ShiftToNihgt();
         }
-        
+        Enemy.SetActive(persistentData.enemyActive);
+        Vector3 enemyPos = new Vector3(persistentData.enemyPosition[0], persistentData.enemyPosition[1], persistentData.enemyPosition[2]);
+        Enemy.transform.position = enemyPos;
         batteryDispatcher.ActivateComponents(persistentData.activeElements);
         missionData = new MissionData
         {

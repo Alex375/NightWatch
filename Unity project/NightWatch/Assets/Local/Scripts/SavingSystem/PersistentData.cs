@@ -13,10 +13,12 @@ public class PersistentData
     public bool[] activeMissions;
     public int currentMission;
     public bool night;
+    public bool enemyActive;
+    public float[] enemyPosition;
 
 
     public PersistentData(PlayerManagerLo playerManager, bool[] activeElements, bool[] activeMissions,
-        int currentMission, bool night)
+        int currentMission, bool night, bool enemyActive, Vector3 enemyPosition)
     {
         batteryLevel = playerManager.CurrentBatteryLevel;
         stackBattery = playerManager.Batteries;
@@ -29,6 +31,11 @@ public class PersistentData
         this.activeMissions = activeMissions;
         this.currentMission = currentMission;
         this.night = night;
+        this.enemyActive = enemyActive;
+        this.enemyPosition = new float[3];
+        this.enemyPosition[0] = enemyPosition.x;
+        this.enemyPosition[1] = enemyPosition.y;
+        this.enemyPosition[2] = enemyPosition.z;
     }
     
 }
