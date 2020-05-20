@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 
 public class PhoneController : MonoBehaviour
 {
     public bool isUsable = false;
+    public string Message = "You can't use the phone now";
+    public Action CompletionHanlder;
 
 
     // Update is called once per frame
@@ -15,7 +18,7 @@ public class PhoneController : MonoBehaviour
         {
             if (isUsable)
             {
-                // TODO : proced method
+                CompletionHanlder.Invoke();
             }
         }
     }
@@ -28,7 +31,7 @@ public class PhoneController : MonoBehaviour
         if(isUsable)
             NotificationShowing.instance.Show("E to use the phone");
         else
-            NotificationShowing.instance.Show("You can't use the phone now");
+            NotificationShowing.instance.Show(Message);
     }
 
     private void OnTriggerExit(Collider other)
