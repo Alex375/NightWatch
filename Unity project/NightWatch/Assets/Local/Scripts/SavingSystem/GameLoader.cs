@@ -28,6 +28,7 @@ public class GameLoader : MonoBehaviour
 
     private void Awake()
     {
+        AudioListener.volume = PlayerPrefs.GetFloat("volume");
         if (!LoadGame)
             return;
         PersistentData persistentData = SaveSystem.LoadGame();
