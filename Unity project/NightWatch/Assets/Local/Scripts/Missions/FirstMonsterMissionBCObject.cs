@@ -10,6 +10,7 @@ public class FirstMonsterMissionBCObject : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
         MissionManager.instance.DesactivateMission("DeadStagMission");
+        MissionManager.instance.currentMissionIndex = 10;
         MissionManager.instance.NextMission();
     }
 }

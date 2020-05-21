@@ -16,9 +16,12 @@ public class PhoneMission : MonoBehaviour
         {
             this.Phone.isUsable = false;
             this.Phone.Message = "The phone is broken";
-            NotificationShowing.instance.Show("The phone is broken");
+            MissionShowing.instance.Show("The phone is broken");
             HandeLetter.isUsable = true;
+            HandeLetter.enabled = true;
+            NotificationShowing.instance.Show("E to read the letter");
         };
+        MissionShowing.instance.Show("Call for backup with the phone!");
     }
 
     // Update is called once per frame

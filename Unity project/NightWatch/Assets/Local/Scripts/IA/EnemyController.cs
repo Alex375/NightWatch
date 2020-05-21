@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour
     private bool patrolBehaviour = false;
     private Transform patrolDestination;
     private int patrolPointIndex = 0;
+    public bool AbleToTrack = true;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +43,7 @@ public class EnemyController : MonoBehaviour
             PlayerHit();
         }
 
-        if (distance <= longLookRadius)
+        if (distance <= longLookRadius && AbleToTrack)
         {
             if (!patrolBehaviour)
             {
@@ -80,6 +81,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
+            Anim.SetFloat("vertical",1f);
             Anim.SetFloat("horizontal",1f);
             if (!patrolBehaviour)
             {
