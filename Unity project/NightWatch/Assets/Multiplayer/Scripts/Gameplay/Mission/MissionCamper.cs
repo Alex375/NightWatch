@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class MissionCamper : MonoBehaviourPun
@@ -10,10 +11,18 @@ public class MissionCamper : MonoBehaviourPun
     
     private int nbPlayer = 0;
     private int nbMax;
+    private int nbMonster = 0;
     private MissionManagerMultiplayer MissionManagerMultiplayer;
     void Start()
     {
-        nbMax = PhotonNetwork.PlayerList.Length - 1;
+        foreach (Player p in PhotonNetwork.PlayerList)
+        {
+            if (!(bool) p.CustomProperties["Survivor"])
+            {
+                nbMonster += 1;
+            }
+        }
+        nbMax = PhotonNetwork.PlayerList.Length - nbMonster;
         MissionShowing.instance.StopShowing();
         if ((bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"])
         {

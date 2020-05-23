@@ -19,7 +19,7 @@ public class MissionNightTransition : MonoBehaviourPun
     private bool isSurvivor;
     private bool stopSendRpcNight = false;
     private bool stopSendRpcMission = false;
-    
+
     private void OnEnable()
     {
         isSurvivor = (bool) PhotonNetwork.LocalPlayer.CustomProperties["Survivor"];
@@ -32,19 +32,19 @@ public class MissionNightTransition : MonoBehaviourPun
             A2.Play("transNightMonsterText");
         }
     }
-    
-    void Update() 
+
+    void Update()
     {
         if (isSurvivor)
         {
             if (Text.color.a >= 1 && !stopSendRpcNight)
             {
-                photonView.RPC("ActivateNight",RpcTarget.All);
+                photonView.RPC("ActivateNight", RpcTarget.All);
             }
 
-            if (!AnimPanel.isPlaying && !stopSendRpcMission)
+            if (!AnimPanel.isPlaying)
             {
-                photonView.RPC("NextMission",RpcTarget.All);
+                MissionManager.GetComponent<MissionManagerMultiplayer>().StartNextMission();
             }
         }
     }
@@ -58,25 +58,16 @@ public class MissionNightTransition : MonoBehaviourPun
             {
                 gameObject.SetActive(true);
             }
-            
+
             foreach (GameObject gameObject in DayElements)
             {
                 gameObject.SetActive(false);
             }
         }
+
         stopSendRpcNight = true;
     }
 
-    [PunRPC]
-    private void NextMission()
-    {
-        if (!stopSendRpcMission)
-        {
-            MissionManager.GetComponent<MissionManagerMultiplayer>().StartNextMission();
-        }
-
-        stopSendRpcMission = false;
-    }
 }
 
 

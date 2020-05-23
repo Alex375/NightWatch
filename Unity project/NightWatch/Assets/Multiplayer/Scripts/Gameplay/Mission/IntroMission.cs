@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class IntroMission : MonoBehaviourPun
@@ -34,13 +35,7 @@ public class IntroMission : MonoBehaviourPun
     {
         if (!Anim.isPlaying && isSurvivor)
         {
-            photonView.RPC("GoNextMission",RpcTarget.All);
+            MissionManager.GetComponent<MissionManagerMultiplayer>().StartNextMission();
         }
-    }
-
-    [PunRPC]
-    private void GoNextMission()
-    {
-        MissionManager.GetComponent<MissionManagerMultiplayer>().StartNextMission();
     }
 }
