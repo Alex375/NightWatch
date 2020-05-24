@@ -21,7 +21,9 @@ public class PatrolPointScript : MonoBehaviour
         else
         {
             Gizmos.DrawLine(PatrolPoints[0].transform.position, PatrolPoints[PatrolPoints.Count - 1].transform.position);
+            Gizmos.color = Color.red;
             Gizmos.DrawSphere(PatrolPoints[0].transform.position, 1);
+            Gizmos.color = Color.blue;
             for (int i = 1; i < PatrolPoints.Count; i++)
             {
                 Gizmos.DrawLine(PatrolPoints[i].transform.position, PatrolPoints[i - 1].transform.position);
