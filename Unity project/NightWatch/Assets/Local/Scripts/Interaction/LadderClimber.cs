@@ -6,21 +6,21 @@ using UnityEngine;
 public class LadderClimber : MonoBehaviour
 {
     public PlayerMovement movement;
-    public Rigidbody rb;
+    public float speed = 2;
+    public bool Up = true;
 
     // Update is called once per frame
     void Update()
     {
-        rb.velocity = Vector3.up;
+        PlayerManagerLo.instance.player.transform.Translate(new Vector3(0,Up ? 1: -1,0) * (Time.deltaTime * speed));
     }
 
     private void OnEnable()
     {
-        movement.gravity = 0;
+        movement.UseGravity = false;
     }
-
     private void OnDisable()
     {
-        movement.gravity = -9.81f;
+        movement.UseGravity = true;
     }
 }

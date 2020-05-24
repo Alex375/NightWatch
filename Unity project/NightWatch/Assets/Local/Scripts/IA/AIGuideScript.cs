@@ -26,6 +26,7 @@ public class AIGuideScript : MonoBehaviour
         destinationPos = destination.transform.position;
         MissionManager.instance.ActivateMission("DeadStagMission");
         MissionManager.instance.currentMissionIndex--;
+        MissionShowing.instance.Show("Folow the rabbit");
     }
     
     private void Update()

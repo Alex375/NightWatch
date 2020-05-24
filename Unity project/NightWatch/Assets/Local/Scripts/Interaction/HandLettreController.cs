@@ -9,6 +9,8 @@ public class HandLettreController : MonoBehaviour
     public GameObject LetterCanvas;
     private bool readingLetter = false;
     public AudioSource paperNoise;
+    public Action completion;
+    public GameObject LetterObject;
 
     // Update is called once per frame
     void Update()
@@ -20,7 +22,10 @@ public class HandLettreController : MonoBehaviour
             paperNoise.Play();
             readingLetter ^= true;
             LetterCanvas.SetActive(readingLetter);
+            LetterObject.SetActive(!readingLetter);
             NotificationShowing.instance.Show(readingLetter ? "E to put back the letter":"E to read the letter");
+            if (!readingLetter)
+                completion?.Invoke();
         }
     }
 
@@ -48,6 +53,7 @@ public class HandLettreController : MonoBehaviour
                 readingLetter = false;
                 LetterCanvas.SetActive(false);
                 paperNoise.Play();
+                completion?.Invoke();
             }
         }
     }

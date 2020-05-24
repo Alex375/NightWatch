@@ -22,6 +22,10 @@ public class PhoneMission : MonoBehaviour
             NotificationShowing.instance.Show("E to read the letter");
         };
         MissionShowing.instance.Show("Call for backup with the phone!");
+        HandeLetter.completion = () =>
+        {
+            MissionManager.instance.NextMission();
+        };
     }
 
     // Update is called once per frame

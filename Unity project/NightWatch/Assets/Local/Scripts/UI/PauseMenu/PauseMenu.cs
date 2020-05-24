@@ -18,7 +18,8 @@ public class PauseMenu : MonoBehaviour
 
     public void RestartMission()
     {
-        
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void BackToMenu()
