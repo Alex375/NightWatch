@@ -35,7 +35,7 @@ public class IntroMission : MonoBehaviourPun
     {
         if (!Anim.isPlaying && isSurvivor)
         {
-            MissionManager.GetComponent<MissionManagerMultiplayer>().StartNextMission();
+            MissionManager.GetComponent<MissionManagerMultiplayer>().StartNextMission(false);
         }
     }
 }
