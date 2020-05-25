@@ -183,6 +183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8844759585902561750}
   - component: {fileID: 8272403799528578834}
+  - component: {fileID: 3169604354946431704}
   m_Layer: 0
   m_Name: prefab_beech_tree_05
   m_TagString: Untagged
@@ -239,6 +240,22 @@ LODGroup:
     renderers:
     - renderer: {fileID: 8378141333145125029}
   m_Enabled: 1
+--- !u!208 &3169604354946431704
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5541041778127469509}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 1.12, y: 10.82187, z: 1.12}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.01, y: 9, z: -0.03}
+  m_TimeToStationary: 0.5
 --- !u!1 &5986487456288766384
 GameObject:
   m_ObjectHideFlags: 0

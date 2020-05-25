@@ -46,6 +46,11 @@ public class GeneratorUpdate : MonoBehaviourPun
                 {
                     print("RPC Started");
                     photonView.RPC("IncreaseGenerator", RpcTarget.All);
+                    script.SetMove(true);
+                    anim.StayIdle = false;
+                    generatorCanvas.SetActive(false);
+                    generatorRepairedCanvas.SetActive(false);
+                    enabled = false;
                 }
             }
             else

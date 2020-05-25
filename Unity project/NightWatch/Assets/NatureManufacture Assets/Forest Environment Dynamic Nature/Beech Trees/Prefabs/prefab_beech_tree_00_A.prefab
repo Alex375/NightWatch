@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2133793693996143129}
   - component: {fileID: 5806802758666188103}
+  - component: {fileID: 6392903771825872604}
   m_Layer: 0
   m_Name: prefab_beech_tree_00_A
   m_TagString: Untagged
@@ -61,6 +62,22 @@ LODGroup:
     renderers:
     - renderer: {fileID: 7959550940084095162}
   m_Enabled: 1
+--- !u!208 &6392903771825872604
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133793693996174905}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.3, y: 1.6455015, z: 0.3}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.64285, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &5791264736987400912
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,6 +89,7 @@ GameObject:
   - component: {fileID: 70124152864817205}
   - component: {fileID: 7833365594572372152}
   - component: {fileID: 4769489231283135504}
+  - component: {fileID: 1715576050278328799}
   m_Layer: 0
   m_Name: beech_tree_00_A_LOD0
   m_TagString: Untagged
@@ -140,6 +158,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!136 &1715576050278328799
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5791264736987400912}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.15
+  m_Height: 3.2910025
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.6428496, z: 0}
 --- !u!1 &8493798511011964402
 GameObject:
   m_ObjectHideFlags: 0

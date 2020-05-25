@@ -3,13 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = System.Random;
 
 public class StagIA : MonoBehaviour
 {
     private bool Walking;
     private bool Running;
     private bool Stopped;
-    
+    private bool InFirstZone = false;
+    private bool InSecondZone = false;
+    private Collider player;
+
+    private float timeInactive = 0;
 
     public NavMeshAgent bot;
     public CharacterController controller;
@@ -19,8 +24,21 @@ public class StagIA : MonoBehaviour
     
     private void Update()
     {
-        if (bot.pathEndPosition == transform.position)
+        if (!InFirstZone && !InSecondZone && bot.remainingDistance <= 1f)
             ChangeState("stopped");
+        
+        if ((InFirstZone || InSecondZone) && bot.remainingDistance <= 5f)
+                MoveIA(player, 3f);
+
+        if (Stopped & !InFirstZone && !InFirstZone)
+            timeInactive += Time.deltaTime;
+        else
+            timeInactive = 0;
+
+        if (timeInactive > 15f)
+        {
+            EatingMode();
+        }
         
         // Gravity
         if (Stopped)
@@ -35,37 +53,62 @@ public class StagIA : MonoBehaviour
         }
     }
 
+    private void EatingMode()
+    { 
+        print("Eating mode");
+        Random rnd = new Random();
+        
+        bot.SetDestination(new Vector3(transform.position.x + rnd.Next(-10,10), transform.position.y, transform.position.z  + rnd.Next(-10,10)));
+        ChangeState("walking");
+
+        timeInactive = 0f;
+    }
+
     private void Start()
     {
         ChangeState("stopped");
+        bot.autoRepath = true;
+        bot.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            if (Stopped)
+            player = other;
+            if (!InFirstZone && !InSecondZone)
             {
                 ChangeState("walking");
-                MoveIA(other);
-            }
+                InFirstZone = true;
 
-            if (Walking)
+            }
+            else if (InFirstZone && !InSecondZone)
             {
                 ChangeState("running");
-                MoveIA(other);
+                InSecondZone = true;
             }
-        }
-    }
+            print("Entered in zone | Zone 1 : " + InFirstZone + " | Zone 2 : " + InSecondZone);
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.tag == "Player")
-        {
             MoveIA(other);
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            if (InFirstZone && !InSecondZone)
+            {
+                InFirstZone = false;
+            }
+            else if (InFirstZone && InSecondZone)
+            {
+                InSecondZone = false;
+            }
+            print("Exit zone | Zone 1 : " + InFirstZone + " | Zone 2 : " + InSecondZone);
+        }
+    }
+    
     private void ChangeState(string state)
     {
         if (state == "stopped")
@@ -84,7 +127,7 @@ public class StagIA : MonoBehaviour
             Walking = true;
             Stopped = false;
         }
-        else
+        else if (state == "running")
         {
             bot.speed = 6f;
             anim.SetFloat("vertical",2f);
@@ -93,10 +136,20 @@ public class StagIA : MonoBehaviour
             Stopped = false;
         }
     }
-    private void MoveIA(Collider other)
+    private void MoveIA(Collider other, float coef2 = 1f)
     {
-        float vecteurX = (transform.position.x - other.transform.position.x) * 2;
-        float vecteurZ = (transform.position.z - other.transform.position.z) * 2;
+        float coef = 0f;
+        if (Walking)
+        {
+            coef = 1.3f;
+        }
+        else if (Running)
+        {
+            coef = 2f;
+        }
+        
+        float vecteurX = (transform.position.x - other.transform.position.x) * coef * coef2;
+        float vecteurZ = (transform.position.z - other.transform.position.z) * coef * coef2;
         bot.SetDestination(new Vector3(transform.position.x + vecteurX, transform.position.y, transform.position.z  + vecteurZ));
     }
 }
