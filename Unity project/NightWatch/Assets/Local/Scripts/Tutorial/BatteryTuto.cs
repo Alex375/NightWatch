@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class BatteryTuto : MonoBehaviour
 {
-    public FlashLightControll flash;
     private bool first = true;
     private void OnEnable()
     {
@@ -25,10 +24,5 @@ public class BatteryTuto : MonoBehaviour
             MissionShowing.instance.StopShowing();
             MissionManager.instance.NextMission();
         }   
-    }
-
-    private void OnDisable()
-    {
-        flash.DecraeseBatteryPerUpdate = LightTuto.deacreseBattery;
     }
 }

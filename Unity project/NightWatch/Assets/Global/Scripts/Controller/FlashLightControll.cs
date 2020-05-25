@@ -12,10 +12,6 @@ public class FlashLightControll : MonoBehaviourPun
     public Light light;
     public float DecraeseBatteryPerUpdate;
     public GameObject TorchLamp;
-    public GameObject FlickerEffect;
-    private bool played = false;
-    private bool playing = false;
-    private int timer = 0;
     
 
     private bool IsOffline;
@@ -42,24 +38,6 @@ public class FlashLightControll : MonoBehaviourPun
     {
         if (LightOn && HasTorchLamp)
         {
-            if (playing)
-            {
-                timer -= 1;
-                if (timer <= 0)
-                {
-                    FlickerEffect.SetActive(false);
-                    SetLightOn(true);
-                }
-            }
-            else if (!played && PlayerManagerLo.instance.CurrentBatteryLevel <= 25 &&
-                     PlayerManagerLo.instance.CurrentBatteryLevel >= 20)
-            {
-                timer = 150;
-                played = true;
-                playing = true;
-                FlickerEffect.SetActive(true);
-            }
-
             PlayerManagerLo.instance.CurrentBatteryLevel -= DecraeseBatteryPerUpdate * Time.deltaTime;
             if (PlayerManagerLo.instance.CurrentBatteryLevel <= 0)
             {

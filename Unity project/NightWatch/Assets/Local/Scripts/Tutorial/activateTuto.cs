@@ -15,8 +15,8 @@ public class activateTuto : MonoBehaviour
         if (!animation.isPlaying)
         {
             UI.SetActive(true);
-            //MissionManager.instance.QuitAllMission();
-            MissionManager.instance.NextMission();
+            MissionManager.instance.QuitAllMission();
+            MissionManager.instance.ActivateMission(0);
             enabled = false;
         }
     }

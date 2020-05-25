@@ -14,7 +14,8 @@ public class AnimationAfterIntroScript : MonoBehaviour
     public GameObject ATH;
     public GameObject ScreamSource;
     public GameObject NightSound;
-    public NightShiftingScript nightShiftingScript;
+    public GameObject[] DaysObjects;
+    public GameObject[] NightObject;
     private bool changedDay = false;
     void Update()
     {
@@ -30,8 +31,16 @@ public class AnimationAfterIntroScript : MonoBehaviour
                 FPPCamera.SetActive(true);
                 PlayerManagerLo.instance.AudioListenerSetActive(true);
                 AnimationCamera.SetActive(false);
+                foreach (var d in DaysObjects)
+                {
+                    d.SetActive(false);
+                }
+
+                foreach (var n in NightObject)
+                {
+                    n.SetActive(true);
+                }
                 
-                nightShiftingScript.ShiftToNihgt(false);
                 changedDay = true;
             }
         }
