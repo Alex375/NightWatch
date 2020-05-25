@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviourPun
     public CharacterController Controller;
     public AudioSource AudioWalk;
     public AudioSource AudioRun;
+    public bool UseGravity = true;
 
     private bool onTerrain;
     
@@ -29,7 +30,7 @@ public class PlayerMovement : MonoBehaviourPun
     {
         if (photonView.IsMine && playerCanMove)
         { 
-            if (Controller.isGrounded && velocity.y < 0)
+            if (Controller.isGrounded && velocity.y < 0 && UseGravity)
             {
                 velocity.y = -2f;
             }
@@ -57,9 +58,11 @@ public class PlayerMovement : MonoBehaviourPun
                 AudioWalk.pitch = Random.Range(0.6f, 1.1f);
                 AudioWalk.Play();
             }
-                
 
-            velocity.y += gravity * Time.deltaTime;
+            if (UseGravity)
+                velocity.y += gravity * Time.deltaTime;
+            else
+                velocity.y = 0;
 
             Controller.Move(velocity * Time.deltaTime);
         }

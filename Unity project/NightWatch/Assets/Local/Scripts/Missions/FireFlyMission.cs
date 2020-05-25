@@ -11,7 +11,7 @@ public class FireFlyMission : MonoBehaviour
 
     private void Awake()
     {
-        MissionShowing.instance.Show("Find the origin of the scream...");
+        MissionShowing.instance.Show("Folow the fireflies...");
     }
 
     public void ChangeFirefly(int index)

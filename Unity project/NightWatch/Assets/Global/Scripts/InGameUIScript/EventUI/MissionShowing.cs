@@ -9,7 +9,8 @@ public class MissionShowing : MonoBehaviour
     #region Singleton
 
     public static MissionShowing instance;
-
+    public GameObject MissionPanel;
+    public Text text;
     private void Awake()
     {
         instance = this;
@@ -18,8 +19,7 @@ public class MissionShowing : MonoBehaviour
     #endregion
     
     
-    public GameObject MissionPanel;
-    public Text text;
+
     public bool IsShowing { get; private set; }
     
     public void Show(string message)

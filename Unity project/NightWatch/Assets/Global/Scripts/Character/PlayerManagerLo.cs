@@ -18,6 +18,12 @@ public class PlayerManagerLo : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        if (GameLoader.hasLoad)
+        {
+            Batteries = GameLoader.playerData.batteryStack;
+            CurrentBatteryLevel = GameLoader.playerData.batteryLevel;
+            player.transform.position = GameLoader.playerData.position;   
+        }
     }
 
     #endregion
