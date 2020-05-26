@@ -120,7 +120,7 @@ public class EnemyController : MonoBehaviour
     public void PlayerHit()
     {
         Anim.SetFloat("vertical",2f);
-        print("Player died");
+        PlayerManagerLo.instance.PlayrDied();
     }
     
     public void SetPatrolBehavior()

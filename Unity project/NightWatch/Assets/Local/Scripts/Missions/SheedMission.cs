@@ -14,6 +14,6 @@ public class SheedMission : MonoBehaviour
     {
         monster.transform.position = point.transform.position;
         enemyController.PatrolPoint = patrolPoint;
-        MissionShowing.instance.Show("Go to the sheed");
+        MissionShowing.instance.Show("Take the fuses at the back of the house");
     }
 }
