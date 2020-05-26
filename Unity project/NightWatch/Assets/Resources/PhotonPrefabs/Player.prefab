@@ -1895,6 +1895,7 @@ MonoBehaviour:
   Controller: {fileID: 2211369911246243034}
   AudioWalk: {fileID: 3091257561673523193}
   AudioRun: {fileID: 7995269692463197698}
+  UseGravity: 1
 --- !u!143 &2211369911246243034
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2008,6 +2009,7 @@ MonoBehaviour:
   light: {fileID: 1957153349733632888}
   DecraeseBatteryPerUpdate: 1
   TorchLamp: {fileID: 5795124198464805997}
+  FlickerEffect: {fileID: 0}
 --- !u!81 &2833403380945754103
 AudioListener:
   m_ObjectHideFlags: 0

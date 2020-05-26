@@ -2018,6 +2018,7 @@ MonoBehaviour:
   Controller: {fileID: 4226926272781163648}
   AudioWalk: {fileID: -2328610133004721350}
   AudioRun: {fileID: 61941473366954498}
+  UseGravity: 1
 --- !u!143 &4226926272781163648
 CharacterController:
   m_ObjectHideFlags: 0
