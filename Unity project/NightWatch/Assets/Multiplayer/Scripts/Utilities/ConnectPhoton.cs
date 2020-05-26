@@ -9,9 +9,8 @@ public class ConnectPhoton : MonoBehaviourPunCallbacks
     
     // Start is called before the first frame update
 
-    public void Awake()
+    public void Start()
     {
-        base.OnEnable();
         PhotonNetwork.GameVersion = MasterManager.GameSettings.GameVersion;
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.NickName = MasterManager.GameSettings.NickName;
