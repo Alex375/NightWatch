@@ -10,6 +10,7 @@ public class PlayerManagerLo : MonoBehaviour
 {
     private int _batteries;
     public readonly int MaxBatteries = 1;
+    public GameObject DeadScreen;
 
     #region Singleton
 
@@ -75,5 +76,10 @@ public class PlayerManagerLo : MonoBehaviour
     {
         AudioListener audioListener = GetComponent<AudioListener>();
         audioListener.enabled = active;
+    }
+
+    public void PlayrDied()
+    {
+        DeadScreen.SetActive(true);
     }
 }

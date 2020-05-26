@@ -32,6 +32,8 @@ public class GameLoader : MonoBehaviour
         if (!LoadGame)
             return;
         PersistentData persistentData = SaveSystem.LoadGame();
+        if(persistentData == null)
+            return;
         playerData = new PlayerData
         {
             position = new Vector3(persistentData.playerPosition[0], persistentData.playerPosition[1],

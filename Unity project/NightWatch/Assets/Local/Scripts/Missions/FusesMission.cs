@@ -35,4 +35,9 @@ public class FusesMission : MonoBehaviour
         NotificationShowing.instance.StopShowing();
         enabled = false;
     }
+
+    private void OnDisable()
+    {
+        NotificationShowing.instance.StopShowing();
+    }
 }
