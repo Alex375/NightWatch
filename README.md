@@ -1,5 +1,6 @@
 # Projet S2 : NightWatch
 Jeux vidéo d'horreur pour le Projet S2 en SUP a EPITA Rennes
+> This project is archived it is on read only.
 
 ## Informations
 Engine : Unity
