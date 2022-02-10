@@ -1,8 +1,13 @@
 # Projet S2 : NightWatch
-Jeux vidéo d'horreur pour le Projet S2 en SUP a EPITA Rennes
+Jeux vidéo d'horreur avec Unity3D pour un projet de première année à EPITA
 > This project is archived it is on read only.
 
-!https://i.ibb.co/LtjSRsh/Capture-d-cran-2022-02-10-11-12-54.png
+Quelque captures d'écran
+
+![](https://i.ibb.co/LtjSRsh/Capture-d-cran-2022-02-10-11-12-54.png)
+![](https://i.ibb.co/BrJyTNQ/Capture-d-cran-2022-02-10-11-15-40.png)
+
+Teaser du jeu : https://www.youtube.com/watch?v=vQQANGb5piM
 
 ## Informations
 Engine : Unity
