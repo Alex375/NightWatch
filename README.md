@@ -2,6 +2,8 @@
 Jeux vidéo d'horreur pour le Projet S2 en SUP a EPITA Rennes
 > This project is archived it is on read only.
 
+!https://i.ibb.co/LtjSRsh/Capture-d-cran-2022-02-10-11-12-54.png
+
 ## Informations
 Engine : Unity
 
